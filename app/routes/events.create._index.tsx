@@ -1,29 +1,15 @@
 import {
   ActionFunctionArgs,
-  LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import { getValidatedFormData } from "remix-hook-form";
 import { EventForm } from "../components/event-form";
-import { updateEvent } from "../db/api";
+import {  updateEvent } from "../db/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventSchema } from "../db/zod";
 import { z } from "zod";
 import { Tables } from "../../database.types";
-import { supabase } from "~/lib/supabase";
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const eventId = params.eventId!;
-  const data = await supabase
-    .from("events")
-    .select("*")
-    .eq("id", Number(eventId))
-    .limit(1)
-    .then((result) => result.data);
-
-  return data![0];
-};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
@@ -42,22 +28,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return await updateEvent(data as Tables<"events">);
 };
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<{}> = () => {
   return [
-    { title: `${data?.title} – Yaswami` },
+    { title: `Create Event – Yaswami` },
     { name: "description", content: "Yaswami – События мастеров" },
   ];
 };
 
 export default function EventPage() {
-  const data = useLoaderData<typeof loader>();
-
-  console.log(data);
-
   return (
-    data && (
+    (
       <div className="container py-8">
-        <EventForm data={data} />
+        <EventForm />
       </div>
     )
   );

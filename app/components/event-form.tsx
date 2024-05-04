@@ -1,4 +1,4 @@
-import { Tables } from "database.types";
+import { Tables } from "../../database.types";
 import { useRemixForm } from "remix-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,11 +13,11 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { eventSchema } from "~/db/zod";
+import { eventSchema } from "../db/zod";
 import { Form as RemixForm } from "@remix-run/react";
 
 export type EventFormProps = {
-  data: Tables<"events">;
+  data?: Tables<"events">;
 };
 
 export function EventForm({ data }: EventFormProps) {
