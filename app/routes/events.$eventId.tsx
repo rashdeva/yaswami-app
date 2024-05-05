@@ -31,6 +31,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  console.log(request)
   const {
     errors,
     data,
@@ -69,6 +70,8 @@ export default function EventPage() {
       navigate('/');
     }
   }, [data])
+
+  console.log(data)
 
   return (
     data && (

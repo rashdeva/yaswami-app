@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Tables } from "../../database.types";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  console.log(request)
   const {
     errors,
     data,
@@ -44,7 +45,6 @@ export default function EventPage() {
     mode: "onSubmit",
     resolver: zodResolver(createEventSchema)
   });
-
   
   return (
     <div className="container py-8">

@@ -18,8 +18,6 @@ export const loader = async () => {
 export default function Index() {
   const data = useLoaderData<typeof loader>();
 
-  console.log(data)
-
   return (
     <div className="h-dvh w-dvw flex flex-col gap-3 justify-center items-center">
       <Button className="rounded-full w-40 h-40 p-1 text-xl hover:p-0 active:p-2 hover:scale-110 active:scale-90 transition-all" asChild>

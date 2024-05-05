@@ -1,12 +1,18 @@
 import { Tables } from "../../database.types";
 import { supabase } from "../lib/supabase";
 
-export async function updateEvent({id, ...data}: Tables<"events">) {
-  return await supabase.from("events").update(data).eq('id', id)
+export async function updateEvent({id, event_type, ...data}: Tables<"events">) {
+  return await supabase.from("events").update({
+    event_type: Number(event_type),
+    ...data
+  }).eq('id', id)
 }
 
-export async function createEvent(data: Tables<"events">) {
-  const { data: createdData, error } = await supabase.from("events").insert([data]);
+export async function createEvent({event_type, ...data}: Tables<"events">) {
+  const { data: createdData, error } = await supabase.from("events").insert([{
+    event_type: Number(event_type),
+    ...data,
+  }]);
   return { createdData, error };
 }
 
@@ -37,8 +43,6 @@ export async function getEvents() {
     const { data, error } = await supabase
       .from("events")
       .select("*");
-
-      console.log(data, error)
 
     if (data) {
       return data[0];

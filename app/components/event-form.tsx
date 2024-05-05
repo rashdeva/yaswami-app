@@ -1,75 +1,183 @@
-import { Tables } from "../../database.types";
-import { useRemixForm } from "remix-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+import { Form } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { useFetcher } from "@remix-run/react";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export type EventFormProps = {
-  form: any
+  form: any;
 };
 
 export function EventForm({ form }: EventFormProps) {
   let fetcher = useFetcher();
   let isSubmitting = fetcher.state === "submitting";
 
+
   return (
     <Form {...form}>
       <fetcher.Form method="post" className="space-y-8">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Заголовок</FormLabel>
-              <FormControl>
-                <Input placeholder="Введите заголовок события" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Описание</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Опишите событие"
-                  {...field}
-                  value={field.value || ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Стоимость</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isSubmitting}>Submit</Button>
+        <div>
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              placeholder="Event Title"
+              {...form.register("title")}
+              name="title"
+              required
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              placeholder="Event Description"
+              {...form.register("description")}
+              name="description"
+              required
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div>
+              <Label htmlFor="start-date">Start Date</Label>
+              <Input
+                id="start-date"
+                required
+                type="date"
+                {...form.register("start_date")}
+                name="start_date"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <Label htmlFor="start-time">Start Time</Label>
+              <Input
+                id="start-time"
+                required
+                type="time"
+                {...form.register("start_time")}
+                name="start_time"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div>
+              <Label htmlFor="end-date">End Date</Label>
+              <Input
+                id="end-date"
+                required
+                type="date"
+                {...form.register("end_date")}
+                name="end_date"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <Label htmlFor="end-time">End Time</Label>
+              <Input
+                id="end-time"
+                required
+                type="time"
+                {...form.register("end_time")}
+                name="end_time"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div>
+              <Label htmlFor="event-type">Event Type</Label>
+              <Select
+                required
+                {...form.register("event_type")}
+                name="event_type"
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Event Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={"1"}>Conference</SelectItem>
+                  <SelectItem value={"2"}>Workshop</SelectItem>
+                  <SelectItem value={"3"}>Meetup</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div>
+            <div>
+              <Label htmlFor="max-participants">Max Participants</Label>
+              <Input
+                id="max-participants"
+                min="1"
+                required
+                type="number"
+                {...form.register("max_participants")}
+                name="max_participants"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <div>
+              <Label htmlFor="price">Price</Label>
+              <Input
+                id="price"
+                min="0"
+                required
+                step="0.01"
+                type="number"
+                {...form.register("price")}
+                name="price"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <Label htmlFor="thumbnail">Thumbnail URL</Label>
+              <Input
+                id="thumbnail"
+                placeholder="https://example.com/thumbnail.jpg"
+                required
+                type="url"
+                {...form.register("thumbnail_url")}
+                name="thumbnail_url"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <Label htmlFor="comment">Comment</Label>
+              <Textarea
+                id="comment"
+                placeholder="Comment"
+                {...form.register("comment")}
+                name="comment"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <Button type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
       </fetcher.Form>
     </Form>
   );
