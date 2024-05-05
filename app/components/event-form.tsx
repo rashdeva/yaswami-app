@@ -13,7 +13,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { createEventSchema, eventSchema } from "../db/zod";
+import { createEventSchema } from "../db/zod";
 import { useFetcher } from "@remix-run/react";
 
 export type EventFormProps = {
@@ -28,8 +28,6 @@ export function EventForm({ data }: EventFormProps) {
 
   let fetcher = useFetcher();
   let isSubmitting = fetcher.state === "submitting";
-
-  console.log(fetcher.state)
 
   return (
     <Form {...form}>

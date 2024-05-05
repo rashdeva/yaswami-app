@@ -52,8 +52,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export default function EventPage() {
   const data = useLoaderData<typeof loader>();
 
-  console.log(data);
-
   return (
     data && (
       <div className="container py-8">
