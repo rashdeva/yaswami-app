@@ -1,31 +1,36 @@
-import {
-  ActionFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
+import { ActionFunctionArgs, json, MetaFunction } from "@remix-run/node";
 import { getValidatedFormData } from "remix-hook-form";
 import { EventForm } from "../components/event-form";
-import {  updateEvent } from "../db/api";
+import { createEvent } from "../db/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { eventSchema } from "../db/zod";
+import { createEventSchema } from "../db/zod";
 import { z } from "zod";
 import { Tables } from "../../database.types";
-
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
     errors,
     data,
     receivedValues: defaultValues,
-  } = await getValidatedFormData<z.infer<typeof eventSchema>>(
+  } = await getValidatedFormData<z.infer<typeof createEventSchema>>(
     request,
-    zodResolver(eventSchema)
+    zodResolver(createEventSchema)
   );
+  console.log(errors, data);
   if (errors) {
-    // The keys "errors" and "defaultValue" are picked up automatically by useRemixForm
-    return { errors, defaultValues };
+    // If there are errors, return them to the client to display
+    return json({ errors, defaultValues }, { status: 400 });
   }
 
-  return await updateEvent(data as Tables<"events">);
+  // Attempt to create a new event in the database using Supabase
+  const creationResponse = await createEvent(data as Tables<"events">);
+  if (creationResponse.error) {
+    // If there is an error during the creation, return it to the client
+    return json({ serverError: creationResponse.error.message }, { status: 500 });
+  }
+
+  // Redirect or handle the successful creation accordingly
+  return json({ message: 'Event created successfully' });
 };
 
 export const meta: MetaFunction<{}> = () => {
@@ -37,10 +42,8 @@ export const meta: MetaFunction<{}> = () => {
 
 export default function EventPage() {
   return (
-    (
-      <div className="container py-8">
-        <EventForm />
-      </div>
-    )
+    <div className="container py-8">
+      <EventForm />
+    </div>
   );
 }

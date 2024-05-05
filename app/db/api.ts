@@ -5,6 +5,11 @@ export async function updateEvent({id, ...data}: Tables<"events">) {
   return await supabase.from("events").update(data).eq('id', id)
 }
 
+export async function createEvent(data: Tables<"events">) {
+  const { data: createdData, error } = await supabase.from("events").insert([data]);
+  return { createdData, error };
+}
+
 export async function getEventById(eventId: string) {
   try {
     const { data, error } = await supabase

@@ -13,23 +13,27 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { eventSchema } from "../db/zod";
-import { Form as RemixForm } from "@remix-run/react";
+import { createEventSchema, eventSchema } from "../db/zod";
+import { useFetcher } from "@remix-run/react";
 
 export type EventFormProps = {
   data?: Tables<"events">;
 };
 
 export function EventForm({ data }: EventFormProps) {
-  const form = useRemixForm<z.infer<typeof eventSchema>>({
+  const form = useRemixForm<z.infer<typeof createEventSchema>>({
     mode: "onSubmit",
-    resolver: zodResolver(eventSchema),
-    defaultValues: { ...data },
+    resolver: zodResolver(createEventSchema),
   });
+
+  let fetcher = useFetcher();
+  let isSubmitting = fetcher.state === "submitting";
+
+  console.log(fetcher.state)
 
   return (
     <Form {...form}>
-      <RemixForm onSubmit={form.handleSubmit} className="space-y-8">
+      <fetcher.Form method="post" className="space-y-8">
         <FormField
           control={form.control}
           name="title"
@@ -73,8 +77,8 @@ export function EventForm({ data }: EventFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </RemixForm>
+        <Button type="submit" disabled={isSubmitting}>Submit</Button>
+      </fetcher.Form>
     </Form>
   );
 }
