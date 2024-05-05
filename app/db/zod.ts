@@ -10,11 +10,11 @@ export const eventSchema = z.object({
   location: z.string().nullable(),
   max_participants: z.number().nullable(),
   owner_id: z.number().nullable(),
-  price: z.preprocess((val) => Number(val), z.number()),
+  price: z.preprocess((val) => Number(val), z.number()).nullable(),
   start_date: z.string().nullable(),
   start_time: z.string().nullable(),
   thumbnail_url: z.string().nullable(),
-  title: z.string().min(1, "Title is required"),
+  title: z.string().nullable(),
 });
 
 export const createEventSchema = eventSchema.pick({

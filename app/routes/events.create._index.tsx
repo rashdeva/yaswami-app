@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, json, MetaFunction } from "@remix-run/node";
-import { getValidatedFormData } from "remix-hook-form";
+import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { EventForm } from "../components/event-form";
 import { createEvent } from "../db/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     request,
     zodResolver(createEventSchema)
   );
-  console.log(errors, data);
   if (errors) {
     // If there are errors, return them to the client to display
     return json({ errors, defaultValues }, { status: 400 });
@@ -41,9 +40,15 @@ export const meta: MetaFunction<{}> = () => {
 };
 
 export default function EventPage() {
+  const form = useRemixForm<z.infer<typeof createEventSchema>>({
+    mode: "onSubmit",
+    resolver: zodResolver(createEventSchema)
+  });
+
+  
   return (
     <div className="container py-8">
-      <EventForm />
+      <EventForm form={form} />
     </div>
   );
 }
