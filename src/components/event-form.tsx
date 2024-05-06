@@ -11,9 +11,10 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Tables } from "~/database.types";
+import { UseFormReturn } from "react-hook-form";
 
 export type EventFormProps = {
-  form: any;
+  form: UseFormReturn<any>;
   onSubmit: (data: Tables<"events">) => void;
 };
 
@@ -45,7 +46,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
               <Label htmlFor="start-date">Start Date</Label>
@@ -55,6 +56,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
                 type="date"
                 {...form.register("start_date")}
                 name="start_date"
+                className="w-full"
               />
             </div>
           </div>
@@ -71,7 +73,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
               <Label htmlFor="end-date">End Date</Label>
@@ -97,7 +99,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
               <Label htmlFor="event-type">Event Type</Label>
@@ -131,7 +133,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
               <Label htmlFor="price">Price</Label>
@@ -172,7 +174,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             </div>
           </div>
         </div>
-        <Button type="submit">
+        <Button type="submit" className="w-full h-16" size="lg">
           Submit
         </Button>
       </form>
