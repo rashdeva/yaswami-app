@@ -9,7 +9,7 @@ export const useReroute = () => {
 
     if (data && data.hasOwnProperty("start_param")) {
       if (data.start_param?.includes("event")) {
-        const eventId = data.start_param.split("event-")[0];
+        const eventId = data.start_param.split("event-")[1];
         navigate(`/events/${eventId}/view`);
       }
     }
