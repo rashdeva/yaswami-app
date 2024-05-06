@@ -12,7 +12,7 @@ export type EventFormProps = {
 
 export function UserCard({ userId }: { userId: number }) {
   const { data: user } = useQuery({
-    queryKey: ["users", "isUserExist"],
+    queryKey: ["users", userId],
     queryFn: () => getUserById(userId).then((data) => data[0]),
     enabled: !!userId,
   });
