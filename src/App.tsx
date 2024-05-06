@@ -3,6 +3,7 @@ import Index from "./pages/page";
 import EventsCreatePage from "./pages/events/create/page";
 import EventPage from "./pages/events/edit/page";
 import { useAuth } from "./hooks/useAuth";
+import EventViewPage from "./pages/events/view/page";
 
 function App() {
   useAuth();
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/events/create" element={<EventsCreatePage />} />
         <Route path="/events/:eventId" element={<EventPage />} />
+        <Route path="/events/:eventId/view" element={<EventViewPage />} />
       </Routes>
     </div>
   );

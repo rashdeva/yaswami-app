@@ -1,11 +1,12 @@
 import { create } from "zustand";
 
 export interface UserData {
-  telegram_id?: number;
+  id?: number;
   first_name?: string;
   last_name?: string;
   username?: string;
   language_code?: string;
+  thumbnail_url?: string;
 }
 
 export interface UserStore {
@@ -15,7 +16,7 @@ export interface UserStore {
 
 export const useUserStore = create<UserStore>((set) => ({
   data: {
-    telegram_id: undefined,
+    id: undefined,
     first_name: undefined,
     last_name: undefined,
     username: undefined,

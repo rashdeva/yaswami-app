@@ -24,7 +24,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
       <form method="post" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div>
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">Заголовок</Label>
             <Input
               id="title"
               placeholder="Event Title"
@@ -36,7 +36,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
         </div>
         <div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Описание</Label>
             <Textarea
               id="description"
               placeholder="Event Description"
@@ -49,7 +49,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
-              <Label htmlFor="start-date">Start Date</Label>
+              <Label htmlFor="start-date">Дата начала</Label>
               <Input
                 id="start-date"
                 required
@@ -62,7 +62,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
           </div>
           <div>
             <div>
-              <Label htmlFor="start-time">Start Time</Label>
+              <Label htmlFor="start-time">Время начала</Label>
               <Input
                 id="start-time"
                 required
@@ -76,7 +76,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
-              <Label htmlFor="end-date">End Date</Label>
+              <Label htmlFor="end-date">Дата окончания</Label>
               <Input
                 id="end-date"
                 required
@@ -88,7 +88,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
           </div>
           <div>
             <div>
-              <Label htmlFor="end-time">End Time</Label>
+              <Label htmlFor="end-time">Время окончения</Label>
               <Input
                 id="end-time"
                 required
@@ -102,7 +102,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
-              <Label htmlFor="event-type">Event Type</Label>
+              <Label htmlFor="event-type">Тип события</Label>
               <Select
                 required
                 {...form.register("event_type")}
@@ -121,7 +121,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
           </div>
           <div>
             <div>
-              <Label htmlFor="max-participants">Max Participants</Label>
+              <Label htmlFor="max-participants">Макс кол-во людей</Label>
               <Input
                 id="max-participants"
                 min="1"
@@ -136,7 +136,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <div>
-              <Label htmlFor="price">Price</Label>
+              <Label htmlFor="price">Стоимость</Label>
               <Input
                 id="price"
                 min="0"
@@ -150,7 +150,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
           </div>
           <div>
             <div>
-              <Label htmlFor="thumbnail">Thumbnail URL</Label>
+              <Label htmlFor="thumbnail">Ссылка на картинку</Label>
               <Input
                 id="thumbnail"
                 placeholder="https://example.com/thumbnail.jpg"
@@ -163,7 +163,7 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
           </div>
           <div>
             <div>
-              <Label htmlFor="comment">Comment</Label>
+              <Label htmlFor="comment">Комментарий</Label>
               <Textarea
                 id="comment"
                 placeholder="Comment"
@@ -174,8 +174,8 @@ export function EventForm({ form, onSubmit }: EventFormProps) {
             </div>
           </div>
         </div>
-        <Button type="submit" className="w-full h-16" size="lg">
-          Submit
+        <Button type="submit" className="w-full" size="lg">
+          Сохранить изменения
         </Button>
       </form>
     </Form>

@@ -9,6 +9,60 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      event_participants: {
+        Row: {
+          created_at: string
+          event_id: number | null
+          id: number
+          user_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          event_id?: number | null
+          id?: number
+          user_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          event_id?: number | null
+          id?: number
+          user_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_participants_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["telegram_id"]
+          },
+        ]
+      }
+      event_types: {
+        Row: {
+          created_at: string
+          id: number
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           comment: string | null
@@ -61,6 +115,47 @@ export type Database = {
           thumbnail_url?: string | null
           title?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "events_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["telegram_id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          first_name: string | null
+          id: number
+          language_code: string | null
+          last_name: string | null
+          status: Database["public"]["Enums"]["user_status"] | null
+          telegram_id: number | null
+          username: string | null
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string | null
+          id?: number
+          language_code?: string | null
+          last_name?: string | null
+          status?: Database["public"]["Enums"]["user_status"] | null
+          telegram_id?: number | null
+          username?: string | null
+        }
+        Update: {
+          created_at?: string
+          first_name?: string | null
+          id?: number
+          language_code?: string | null
+          last_name?: string | null
+          status?: Database["public"]["Enums"]["user_status"] | null
+          telegram_id?: number | null
+          username?: string | null
+        }
         Relationships: []
       }
     }
@@ -71,7 +166,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_status: "Subscribed" | "Unsubscribed" | "Mentioned" | "Blocked"
     }
     CompositeTypes: {
       [_ in never]: never

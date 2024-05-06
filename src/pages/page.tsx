@@ -29,6 +29,10 @@ export default function Index() {
       <div className="text-muted-foreground uppercase font-bold text-xs">
         Создать событие
       </div>
+
+      <Button asChild>
+        <Link to={"/events/16/view"}>Проверить событие</Link>
+      </Button>
     </div>
   );
 }

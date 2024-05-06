@@ -39,7 +39,7 @@ export default function EventPage() {
 
   return (
     data && (
-      <div className="container py-8">
+      <div className="container py-8 space-y-2">
         <EventForm form={form} onSubmit={handleSubmit} />
       </div>
     )
