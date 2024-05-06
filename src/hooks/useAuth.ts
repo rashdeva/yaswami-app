@@ -10,32 +10,43 @@ export const useAuth = () => {
 
   const createUserMutation = useMutation({
     mutationFn: createUser,
-    onSettled: async () => {
-      await queryClient.refetchQueries({ queryKey: ['users'] })
-    }
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
   });
 
-  const { data: isUserExist } = useQuery({
+  const { data: isUserExist, refetch: refetchUserExistence } = useQuery({
     queryKey: ["users", "isUserExist"],
     queryFn: () =>
-      getUserById(webAppData!.user!.id).then((data) => data.length > 0),
+      getUserById(webAppData!.user!.id).then((data) => data?.length > 0),
     enabled: !!webAppData?.user?.id,
+    initialData: false, // Assuming user does not exist initially
   });
 
-
-  if (!isUserExist && webAppData.user) {
-    createUserMutation.mutate({
-      telegram_id: webAppData.user.id,
-      username: webAppData.user.username,
-      first_name: webAppData.user.first_name,
-      last_name: webAppData.user.last_name,
-      language_code: webAppData.user.language_code,
-    });
-  }
+  useEffect(() => {
+    // Ensure webAppData is available and user's existence is checked
+    if (webAppData?.user && isUserExist === false) {
+      createUserMutation.mutate({
+        telegram_id: webAppData.user.id,
+        username: webAppData.user.username,
+        first_name: webAppData.user.first_name,
+        last_name: webAppData.user.last_name,
+        language_code: webAppData.user.language_code,
+      });
+    }
+  }, [webAppData, isUserExist]); // Depend on webAppData and isUserExist
 
   useEffect(() => {
+    // Store user data in state management if webAppData is available
     if (webAppData && Object.keys(webAppData).length > 0) {
-      setData(webAppData!.user as unknown as UserData);
+      setData(webAppData.user as UserData);
     }
-  }, []);
+  }, [webAppData, setData]);
+
+  useEffect(() => {
+    // Refetch the user existence status when the user's ID is known
+    if (webAppData?.user?.id) {
+      refetchUserExistence();
+    }
+  }, [webAppData?.user?.id, refetchUserExistence]);
 };

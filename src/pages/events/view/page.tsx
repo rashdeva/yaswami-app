@@ -33,12 +33,10 @@ export default function EventViewPage() {
   });
 
   const { data: eventData } = useQuery({
-    queryKey: ["event"],
+    queryKey: ["event", eventId],
     queryFn: () => getEventById(eventId!),
     enabled: !!eventId
   });
-
-  console.log(eventData)
 
   const { data: isParticipated } = useQuery({
     queryKey: ["participants", "isParticipated"],
