@@ -1,5 +1,6 @@
 import { Tables } from "../database.types";
 import { supabase } from "../lib/supabase";
+import { UserData } from "./userStore";
 
 export async function updateEvent({
   id,
@@ -57,11 +58,28 @@ export async function createEvent({ event_type, ...data }: Tables<"events">) {
   return { createdData, error };
 }
 
+export async function createUser({ ...data }: UserData) {
+  const { data: createdData, error } = await supabase
+    .from("users")
+    .insert([data]);
+  return { data: createdData, error };
+}
+
 export async function getEventById(eventId: string) {
   const { data, error } = await supabase
     .from("events")
     .select("*")
     .eq("id", Number(eventId))
+    .limit(1);
+  if (error) throw new Error("Failed to fetch event data");
+  return data;
+}
+
+export async function getUserById(userId: number) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("telegram_id", userId)
     .limit(1);
   if (error) throw new Error("Failed to fetch event data");
   return data;
@@ -105,7 +123,9 @@ export async function getParticipantsByEventId(eventId: number) {
   try {
     const { data, error } = await supabase
       .from("event_participants")
-      .select(`*, user:user_id(id, username, first_name, telegram_id, last_name)`)
+      .select(
+        `*, user:user_id(id, username, first_name, telegram_id, last_name)`
+      )
       .eq("event_id", eventId);
 
     if (error) {

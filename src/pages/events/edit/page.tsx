@@ -14,7 +14,8 @@ export default function EventPage() {
 
   const { data } = useQuery({
     queryKey: ["event"],
-    queryFn: () => getEventById(eventId),
+    queryFn: () => getEventById(eventId!),
+    enabled: !!eventId
   });
 
   const updateEventMutation = useMutation({
