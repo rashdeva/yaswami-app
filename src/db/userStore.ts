@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export interface UserData {
   id?: number;
+  telegram_id?: number;
   first_name?: string;
   last_name?: string;
   username?: string;
