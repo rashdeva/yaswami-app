@@ -31,7 +31,7 @@ export default function Index() {
       </div>
 
       <Button asChild>
-        <Link to={"/events/16/view"}>Проверить событие</Link>
+        <Link to={"/events/19/view"}>Проверить событие</Link>
       </Button>
     </div>
   );
