@@ -1,33 +1,20 @@
 import { Button } from "../components/ui/button";
-import { supabase } from "~/lib/supabase";
 import LogoPng from "~/assets/logo.png";
 import { useUserStore } from "~/db/userStore";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-export const loader = async () => {
-  return (await supabase.from("events").select("*")).data;
-};
+import { getEvents } from "~/db/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Index() {
-  const [data, setData] = useState<any>();
   const userData = useUserStore((state) => state.data);
 
-  console.log(userData);
-
-  useEffect(() => {
-    supabase
-      .from("events")
-      .select("*")
-      .then(({ data, error }) => {
-        if (error || (data && Object.keys(data).length === 0)) {
-          return;
-        }
-        setData(data);
-      });
-  }, []);
+  const { data } = useQuery({
+    queryKey: ["event"],
+    queryFn: getEvents,
+  });
 
   console.log(data);
+  console.log(userData);
 
   return (
     <div className="h-dvh w-dvh flex flex-col gap-3 justify-center items-center">
