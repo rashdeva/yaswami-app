@@ -57,9 +57,7 @@ export async function createEvent({ event_type, ...data }: Tables<"events">) {
   return { createdData, error };
 }
 
-export async function getEventById(eventId?: string) {
-  if (!eventId) return;
-
+export async function getEventById(eventId: string) {
   const { data, error } = await supabase
     .from("events")
     .select("*")
