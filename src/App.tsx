@@ -4,10 +4,12 @@ import EventsCreatePage from "./pages/events/create/page";
 import EventPage from "./pages/events/edit/page";
 import { useAuth } from "./hooks/useAuth";
 import EventViewPage from "./pages/events/view/page";
+import { useReroute } from "./hooks/useReroute";
 
 function App() {
   useAuth();
-
+  useReroute();
+  
   return (
     <div className="container max-w-xl">
       <Routes>
