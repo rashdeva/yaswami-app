@@ -1,4 +1,4 @@
-import { Tables } from "../../database.types";
+import { Tables } from "../database.types";
 import { supabase } from "../lib/supabase";
 
 export async function updateEvent({id, event_type, ...data}: Tables<"events">) {

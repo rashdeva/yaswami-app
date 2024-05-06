@@ -2,7 +2,6 @@ import { Form } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { useFetcher } from "@remix-run/react";
 import { Label } from "./ui/label";
 import {
   Select,
@@ -11,19 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Tables } from "~/database.types";
 
 export type EventFormProps = {
   form: any;
+  onSubmit: (data: Tables<"events">) => void;
 };
 
-export function EventForm({ form }: EventFormProps) {
-  let fetcher = useFetcher();
-  let isSubmitting = fetcher.state === "submitting";
-
-
+export function EventForm({ form, onSubmit }: EventFormProps) {
   return (
     <Form {...form}>
-      <fetcher.Form method="post" className="space-y-8">
+      <form method="post" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div>
           <div>
             <Label htmlFor="title">Title</Label>
@@ -175,10 +172,10 @@ export function EventForm({ form }: EventFormProps) {
             </div>
           </div>
         </div>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit">
           Submit
         </Button>
-      </fetcher.Form>
+      </form>
     </Form>
   );
 }

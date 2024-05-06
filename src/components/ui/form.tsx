@@ -6,13 +6,14 @@ import {
   ControllerProps,
   FieldPath,
   FieldValues,
+  FormProvider,
+  useFormContext
 } from "react-hook-form";
-import { RemixFormProvider, useRemixFormContext } from "remix-hook-form";
 
-import { cn } from "~/lib/utils";
-import { Label } from "~/components/ui/label";
+import { cn } from "../../lib/utils";
+import { Label } from "./label";
 
-const Form = RemixFormProvider;
+const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -41,7 +42,7 @@ const FormField = <
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
-  const { getFieldState, formState } = useRemixFormContext();
+  const { getFieldState, formState } = useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
 
