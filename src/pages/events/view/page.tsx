@@ -10,6 +10,8 @@ import { useUserStore } from "~/db/userStore";
 import { Button } from "~/components/ui/button";
 import { Participants } from "./participants";
 import { UserCard } from "~/components/user-card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import LogoPng from "~/assets/logo.png";
 
 function generateTelegramShareUrl(eventId?: string, text: string = "") {
   if (!eventId) return "";
@@ -74,44 +76,56 @@ export default function EventViewPage() {
 
   return (
     eventData && (
-      <div className="container py-8 space-y-2">
-        <UserCard userId={Number(eventData[0].owner_id)} />
-        <h1 className="text-2xl font-bold">{eventData[0].title}</h1>
-        <p className="text-sm">{eventData[0].description}</p>
+      <div className="container pt-2 pb-8 space-y-2">
+        <Card className="rounded-3xl">
+          <CardHeader className="border-b pb-4">
+            <div className="flex flex-col gap-3">
+              <UserCard userId={Number(eventData[0].owner_id)} />
+            </div>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <h1 className="text-2xl font-bold">{eventData[0].title}</h1>
+            <p className="text-sm pre" style={{ whiteSpace: "pre-wrap" }}>
+              {eventData[0].description}
+            </p>
 
-        <Participants eventId={Number(eventId)} />
+            <Participants eventId={Number(eventId)} />
 
-        {!isParticipated && (
-          <Button
-            className="w-full"
-            onClick={handleParticipate}
-            disabled={participateMutation.isPending}
-          >
-            Принять участие
-          </Button>
-        )}
-        {isParticipated && (
-          <Button
-            className="w-full"
-            onClick={handleUnparticipate}
-            disabled={unparticipateMutation.isPending}
-            variant="destructive"
-          >
-            Отменить участие
-          </Button>
-        )}
+            {!isParticipated && (
+              <Button
+                className="w-full"
+                onClick={handleParticipate}
+                disabled={participateMutation.isPending}
+              >
+                Принять участие
+              </Button>
+            )}
+            {isParticipated && (
+              <Button
+                className="w-full"
+                onClick={handleUnparticipate}
+                disabled={unparticipateMutation.isPending}
+                variant="destructive"
+              >
+                Отменить участие
+              </Button>
+            )}
 
-        <Button className="w-full" variant="secondary" asChild>
-          <Link to={shareUrl}>Поделиться</Link>
-        </Button>
-
-        <div className="fixed bottom-0 left-0 right-0 h-14">
+            <Button className="w-full" variant="secondary" asChild>
+              <Link to={shareUrl}>Поделиться</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <div className="text-center pt-4">
           <Button
             asChild
-            className="w-full h-full rounded-none"
-            variant="secondary"
+            className="h-full rounded-2xl inline-flex gap-2 text-sm"
+            variant="ghost"
           >
-            <Link to="https://t.me/yaswami_bot">Перейти в бота</Link>
+            <Link to="https://t.me/yaswami_bot">
+              <img src={LogoPng} width={20} height={20} alt="" />
+              Yaswami Bot
+            </Link>
           </Button>
         </div>
       </div>

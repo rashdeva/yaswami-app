@@ -13,8 +13,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
  
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 140 100% 70%;
+
+    --master-background: radial-gradient(26.67% 62.96% at 86.46% 88.22%, #eeeeee 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(43.97% 54.13% at 4.53% 7.98%, rgb(245 246 247) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient(36.66% 50.26% at 35.17% 116.1%, #eeeeee 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, hsl(197.14deg 14.29% 90.39%) 0%, hsl(225deg 22.22% 96.47%) 109.55%);
  
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -64,6 +66,28 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
+
+  .twa,
+  :root[class~='twa'] {
+    --hero-background: radial-gradient(25.28% 59.69% at 96.14% 0%, #000 0%, rgba(0, 0, 0, 0) 100%),
+      radial-gradient(43.97% 54.13% at 4.53% 7.98%, #000 0%, rgba(0, 0, 0, 0) 100%),
+      radial-gradient(23.77% 42.42% at 35.17% 116.1%, #000 0%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(180deg, var(--tg-theme-button-color) 0%, #000 200.55%);
+
+    --primary: var(--tg-theme-button-color);
+    --primary-foreground: var(--tg-theme-button-text-color);
+  }
+
+  .dark .twa,
+  :root[class~='twa'].dark {
+    --primary: var(--tg-theme-button-color);
+    --primary-foreground: var(--tg-theme-button-text-color);
+
+    --hero-background: radial-gradient(25.28% 59.69% at 96.14% 0%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
+      radial-gradient(43.97% 54.13% at 4.53% 7.98%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
+      radial-gradient(23.77% 42.42% at 35.17% 116.1%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(180deg, var(--tg-theme-button-color) 0%, var(--background) 150.55%);
+  }
 }
  
 @layer base {
@@ -71,7 +95,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-master text-foreground;
   }
 
   input[type="time"],

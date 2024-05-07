@@ -5,11 +5,23 @@ import EventPage from "./pages/events/edit/page";
 import { useAuth } from "./hooks/useAuth";
 import EventViewPage from "./pages/events/view/page";
 import { useReroute } from "./hooks/useReroute";
+import { useLaunchParams, useMiniApp } from "@tma.js/sdk-react";
+import { useEffect } from "react";
 
 function App() {
   useAuth();
   useReroute();
-  
+
+  const miniApp = useMiniApp();
+  const launchParams = useLaunchParams();
+
+
+  useEffect(() => {
+    miniApp.ready();
+  }, []);
+
+  console.log(launchParams)
+
   return (
     <div className="container max-w-xl">
       <Routes>

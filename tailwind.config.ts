@@ -1,20 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    "./index.html",
-    './src/**/*.{ts,tsx}',
-	],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
       padding: {
-        DEFAULT: '0.55rem',
-        lg: '2rem'
+        DEFAULT: "0.15rem",
+        lg: "2rem",
       },
       screens: {
-        '2xl': '1200px'
-      }
+        "2xl": "1200px",
+      },
+    },
+    fontFamily: {
+      sans: [
+        "SF Pro Text",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "Roboto",
+        '"Segoe UI"',
+        "Helvetica",
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+        '"Noto Color Emoji"',
+      ],
     },
     extend: {
       colors: {
@@ -52,7 +65,12 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      backgroundImage: {
+        master: 'var(--master-background)',
+        
+      },
       borderRadius: {
+        '3xl': "2rem",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
@@ -74,4 +92,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
