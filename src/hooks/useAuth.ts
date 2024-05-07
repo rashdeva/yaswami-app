@@ -1,11 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLaunchParams } from "@tma.js/sdk-react";
 import { useEffect } from "react";
 import { createUser, getUserById } from "~/db/api";
 import { UserData, useUserStore } from "~/db/userStore";
 
 export const useAuth = () => {
   const setData = useUserStore((state) => state.setData);
-  const webAppData = window?.Telegram?.WebApp?.initDataUnsafe;
+  const launchParams = useLaunchParams();
+  const webAppData = launchParams.initData;
   const queryClient = useQueryClient();
 
   const createUserMutation = useMutation({
@@ -29,9 +31,9 @@ export const useAuth = () => {
       createUserMutation.mutate({
         telegram_id: webAppData.user.id,
         username: webAppData.user.username,
-        first_name: webAppData.user.first_name,
-        last_name: webAppData.user.last_name,
-        language_code: webAppData.user.language_code,
+        first_name: webAppData.user.firstName,
+        last_name: webAppData.user.lastName,
+        language_code: webAppData.user.languageCode,
       });
     }
   }, [webAppData, isUserExist]); // Depend on webAppData and isUserExist
