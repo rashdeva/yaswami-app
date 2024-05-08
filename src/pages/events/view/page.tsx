@@ -3,18 +3,17 @@ import {
   getParticipateStatus,
   participateEvent,
   unparticipateEvent,
-} from "../../../db/api";
+} from "~/db/api";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "~/db/userStore";
 import { Button } from "~/components/ui/button";
 import { Participants } from "./participants";
-import { UserCard } from "~/components/user-card";
-import { Card, CardContent, CardFooter } from "~/components/ui/card";
+import { CardFooter } from "~/components/ui/card";
 import LogoPng from "~/assets/logo.png";
 import { useMainButton } from "@tma.js/sdk-react";
 import { useCallback, useEffect } from "react";
-import { Calendar, MapPin, Pin } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 
 export default function EventViewPage() {
   const { eventId } = useParams();
@@ -88,8 +87,6 @@ export default function EventViewPage() {
     }
     mainButton.setText(isParticipated ? "Отменить участие" : "Принять участие");
     mainButton.setBackgroundColor(isParticipated ? "#DC2323" : "#");
-
-    
 
     return () => {
       mainButton.off("click", handleParticipate);
