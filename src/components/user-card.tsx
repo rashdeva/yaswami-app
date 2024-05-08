@@ -20,9 +20,11 @@ export const getShortName = (user: UserData): string => {
 export function UserCard({
   userId,
   extra,
+  disableName = false
 }: {
   userId: number;
   extra?: ReactNode;
+  disableName?: boolean;
 }) {
   const { data: user } = useQuery({
     queryKey: ["users", userId],
@@ -40,12 +42,12 @@ export function UserCard({
               {getShortName(user as unknown as UserData)}
             </AvatarFallback>
           </Avatar>
-          <span className="flex flex-col items-start">
-            <span className="font-bold text-sm">
+          {!disableName && <span className="flex flex-col items-start">
+            <span className="font-bold">
               {getName(user as unknown as UserData)}
             </span>
             {extra}
-          </span>
+          </span>}
         </span>
       </Link>
     )

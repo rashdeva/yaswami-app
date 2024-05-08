@@ -1,28 +1,48 @@
 import { useQuery } from "@tanstack/react-query";
+import { Share } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { UserCard } from "~/components/user-card";
 import { getParticipantsByEventId } from "~/db/api";
 import { UserData } from "~/db/userStore";
+import { cn } from "~/lib/utils";
 
-export const Participants = ({ eventId }: { eventId: number }) => {
+function generateTelegramShareUrl(eventId?: string, text: string = "") {
+  if (!eventId) return "";
+
+  const encodedText = encodeURIComponent(text);
+  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswami_bot/join?startapp=event-${eventId}`;
+}
+
+export const Participants = ({ eventId, className }: { eventId: number, className?: string }) => {
   const { data: participants } = useQuery({
     queryKey: ["participants"],
     queryFn: () => getParticipantsByEventId(eventId),
     enabled: !!eventId,
   });
 
+  const shareUrl = generateTelegramShareUrl(
+    eventId.toString(),
+    "Записывайся на событие! Используй ссылку ниже чтобы открыть информацию"
+  );
+
   return (
     participants &&
     participants.length > 0 && (
-      <Card className="p-3 px-4 rounded-2xl w-full">
-        <h2 className="text-sm text-muted-foreground mb-2">Уже участвуют:</h2>
-        <div className="flex flex-col gap-2">
+      <Card className={cn('p-3 shadow-lg border-none inline-flex rounded-3xl justify-center gap-2', className)}>
+        <div className="flex -space-x-4">
           {participants.map((participant) => {
             const user = participant.user as unknown as UserData;
 
-            return <UserCard userId={user.telegram_id!} />;
+            return <UserCard disableName userId={user.telegram_id!} />;
           })}
         </div>
+        <Button variant="outline" asChild className="rounded-full gap-2 ">
+          <Link to={shareUrl}>
+            Позвать друзей <Share className="w-5 h-5" />
+          </Link>
+        </Button>
       </Card>
     )
   );

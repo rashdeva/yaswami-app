@@ -1,20 +1,20 @@
 import { Button } from "../components/ui/button";
 import LogoPng from "~/assets/logo.png";
-import { useUserStore } from "~/db/userStore";
 import { Link } from "react-router-dom";
-import { getEvents } from "~/db/api";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useMainButton, useBackButton } from "@tma.js/sdk-react";
 
 export default function Index() {
-  const userData = useUserStore((state) => state.data);
+  const mainButton = useMainButton();
+  const backButton = useBackButton();
 
-  const { data } = useQuery({
-    queryKey: ["event"],
-    queryFn: getEvents,
-  });
+  useEffect(() => {
+    backButton.off("click", () => {});
+    backButton.hide();
 
-  console.log(data);
-  console.log(userData);
+    mainButton.disable();
+    mainButton.hide();
+  }, []);
 
   return (
     <div className="h-dvh w-dvh flex flex-col gap-3 justify-center items-center">

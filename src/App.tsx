@@ -15,6 +15,7 @@ function App() {
   const miniApp = useMiniApp();
 
   useEffect(() => {
+    document.documentElement.classList.add('twa');
     miniApp.ready();
   }, []);
 

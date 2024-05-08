@@ -4,7 +4,7 @@ import {
   participateEvent,
   unparticipateEvent,
 } from "../../../db/api";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "~/db/userStore";
 import { Button } from "~/components/ui/button";
@@ -12,22 +12,14 @@ import { Participants } from "./participants";
 import { UserCard } from "~/components/user-card";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
 import LogoPng from "~/assets/logo.png";
-import { useBackButton, useMainButton } from "@tma.js/sdk-react";
+import { useMainButton } from "@tma.js/sdk-react";
 import { useCallback, useEffect } from "react";
-import { Share } from "lucide-react";
-
-function generateTelegramShareUrl(eventId?: string, text: string = "") {
-  if (!eventId) return "";
-
-  const encodedText = encodeURIComponent(text);
-  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswami_bot/join?startapp=event-${eventId}`;
-}
+import { Calendar, MapPin, Pin } from "lucide-react";
 
 export default function EventViewPage() {
   const { eventId } = useParams();
   const userData = useUserStore((state) => state.data);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const participateMutation = useMutation({
     mutationFn: participateEvent,
@@ -58,7 +50,7 @@ export default function EventViewPage() {
   const isPending =
     participateMutation.isPending || unparticipateMutation.isPending;
 
-  const handleParticipate = useCallback(() => {
+  const handleParticipate = useCallback(async () => {
     if (eventId && userData?.id) {
       participateMutation.mutate({
         event_id: Number(eventId),
@@ -76,13 +68,7 @@ export default function EventViewPage() {
     }
   }, [eventId, userData?.id, unparticipateMutation]);
 
-  const shareUrl = generateTelegramShareUrl(
-    eventId,
-    "Записывайся на событие! Используй ссылку ниже чтобы открыть информацию"
-  );
-
   const mainButton = useMainButton();
-  const backButton = useBackButton();
 
   useEffect(() => {
     if (participateMutation.isPending || unparticipateMutation.isPending) {
@@ -101,7 +87,9 @@ export default function EventViewPage() {
       mainButton.on("click", handleParticipate);
     }
     mainButton.setText(isParticipated ? "Отменить участие" : "Принять участие");
-    mainButton.setBackgroundColor(isParticipated ? "#ff0000" : "#");
+    mainButton.setBackgroundColor(isParticipated ? "#DC2323" : "#");
+
+    
 
     return () => {
       mainButton.off("click", handleParticipate);
@@ -110,59 +98,67 @@ export default function EventViewPage() {
   }, [isParticipated]);
 
   useEffect(() => {
-    backButton.show();
-    backButton.on("click", () => navigate(-1));
-
     mainButton.enable();
     mainButton.show();
-
-    return () => {
-      backButton.off("click", () => navigate(-1));
-      backButton.hide();
-
-      mainButton.disable();
-      mainButton.hide();
-    };
   }, []);
 
+  const event = eventData ? eventData[0] : undefined;
+
   return (
-    eventData && (
-      <div className="container pt-4 pb-8 space-y-2">
-        <div className="flex justify-between gap-3 px-4">
-          <UserCard
-            userId={Number(eventData[0].owner_id)}
-            extra={
-              <span className="font-medium text-xs text-primary bg-primary-foreground px-1 py-[1px] rounded-md">
-                Ведущая
-              </span>
-            }
-          />
-          <Button variant="ghost" asChild className="rounded-full w-10 h-10 p-0">
-            <Link to={shareUrl}><Share className="w-4 h-4" /></Link>
-          </Button>
-        </div>
-        <Card className="rounded-3xl">
-          <CardContent className="pt-6">
-            <h1 className="text-2xl font-bold mb-4">{eventData[0].title}</h1>
-            <p className="text-[0.8125rem]" style={{ whiteSpace: "pre-wrap" }}>
-              {eventData[0].description}
+    event && (
+      <div>
+        <header className="flex flex-col items-center">
+          {event.thumbnail_url && (
+            <div className="div -mx-[0.15rem]">
+              <img src={event.thumbnail_url} alt="" className="" />
+            </div>
+          )}
+          <Participants eventId={Number(eventId)} className="-mt-8" />
+        </header>
+        <div className="pb-8 space-y-2">
+          <div className="pt-6 px-4 space-y-4">
+            <h1 className="text-3xl tracking-tighter mb-4">{event.title}</h1>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary-foreground/10">
+                  <Calendar className="h-5 w-5" />
+                </div>
+                <div className="flex">
+                  <span className="font-medium">{event.start_date}</span>
+                  {event.start_time ||
+                    (event.end_time && (
+                      <span>
+                        {event.start_time} {`– ${event.end_time}`}
+                      </span>
+                    ))}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary-foreground/10">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div className="flex">
+                  <span className="font-medium">{event.location}</span>
+                </div>
+              </div>
+            </div>
+            <p className="text-base" style={{ whiteSpace: "pre-wrap" }}>
+              {event.description}
             </p>
-          </CardContent>
-          <CardFooter className="justify-center">
-            <Participants eventId={Number(eventId)} />
-          </CardFooter>
-        </Card>
-        <div className="text-center pt-4">
-          <Button
-            asChild
-            className="h-full rounded-2xl inline-flex gap-2 text-sm"
-            variant="ghost"
-          >
-            <Link to="https://t.me/yaswami_bot">
-              <img src={LogoPng} width={20} height={20} alt="" />
-              Yaswami Bot
-            </Link>
-          </Button>
+          </div>
+          <CardFooter className="justify-center"></CardFooter>
+          <div className="text-center pt-4">
+            <Button
+              asChild
+              className="h-full rounded-2xl inline-flex gap-2 text-sm"
+              variant="ghost"
+            >
+              <Link to="https://t.me/yaswami_bot">
+                <img src={LogoPng} width={20} height={20} alt="" />
+                Yaswami Bot
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     )

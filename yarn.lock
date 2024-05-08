@@ -990,6 +990,16 @@
   dependencies:
     "@tanstack/query-core" "5.35.1"
 
+"@tma.js/sdk-react@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@tma.js/sdk-react/-/sdk-react-2.0.3.tgz#209cbb3efa17b043ddf2bc2b01ed18fe8e8bf19c"
+  integrity sha512-8fvnVk/bwCuOOhKLGLL2ryE93GzcY2l3cSCRg7ATHmzrzV9NIZpkEtNY2CtsjmGONIrtxpT/WTcljj86hN5lOw==
+
+"@tma.js/sdk@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@tma.js/sdk/-/sdk-1.5.3.tgz#989b597b73e43ec2a128ea247e86218e0a8ad080"
+  integrity sha512-oXWtFoiiJCzsueOrX7FFQhpljUOLY3BkxNen6J6Ri0r1gZrlu1uFKZVeCpV7KUzsNTLfIK9VQEOcNxI3zuejJA==
+
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"
