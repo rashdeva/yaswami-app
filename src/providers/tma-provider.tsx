@@ -8,11 +8,7 @@ const options: SDKInitOptions = {
   cssVars: true,
 };
 
-interface SDKProviderErrorProps {
-  error: unknown;
-}
-
-function SDKProviderError({ error }: SDKProviderErrorProps) {
+function SDKProviderError() {
   return (
     <div className="h-dvh w-dvw flex  flex-col items-center justify-center gap-4">
       <Button
