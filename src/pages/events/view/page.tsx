@@ -106,7 +106,7 @@ export default function EventViewPage() {
       <div>
         <header className="flex flex-col items-center">
           {event.thumbnail_url && (
-            <div className="div -mx-[0.15rem]">
+            <div className="rounded-3xl overflow-hidden">
               <img src={event.thumbnail_url} alt="" className="" />
             </div>
           )}
