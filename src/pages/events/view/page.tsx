@@ -1,4 +1,5 @@
 import {
+  createWalletOrder,
   getEventById,
   getParticipateStatus,
   participateEvent,

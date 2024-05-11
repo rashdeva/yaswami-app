@@ -7,6 +7,7 @@ import EventViewPage from "./pages/events/view/page";
 import { useReroute } from "./hooks/useReroute";
 import { useMiniApp } from "@tma.js/sdk-react";
 import { useEffect } from "react";
+import EventPayPage from "./pages/events/pay/page";
 
 function App() {
   useAuth();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/events/create" element={<EventsCreatePage />} />
         <Route path="/events/:eventId" element={<EventPage />} />
         <Route path="/events/:eventId/view" element={<EventViewPage />} />
+        <Route path="/events/:eventId/pay" element={<EventPayPage />} />
       </Routes>
     </div>
   );
