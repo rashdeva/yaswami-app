@@ -11,21 +11,21 @@ export interface UserData {
 }
 
 export interface UserStore {
-  data: UserData;
-  setData: (data: UserData) => void;
+  user: UserData;
+  setUser: (userData: UserData) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
-  data: {
+  user: {
     id: undefined,
     first_name: undefined,
     last_name: undefined,
     username: undefined,
     language_code: undefined,
   },
-  setData: (data) => {
+  setUser: (userData) => {
     set({
-      data,
+      user: userData,
     });
   },
 }));

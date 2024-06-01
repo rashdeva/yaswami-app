@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TmaProvider } from "./providers/tma-provider.tsx";
+import { useLaunchParams } from "@tma.js/sdk-react";
+import App from "./app.tsx";
+import { QueryProvider } from "./providers/query-provider.tsx";
 
-const queryClient = new QueryClient();
+export const Root = () => {
+  const debug = useLaunchParams().startParam === "debug";
+
+  useEffect(() => {
+    if (debug) {
+      import("eruda").then((lib) => lib.default.init());
+    }
+  }, [debug]);
+
+  return <App />;
+};
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
         <TmaProvider>
-          <App />
+          <Root />
         </TmaProvider>
-      </QueryClientProvider>
+      </QueryProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -5,7 +5,7 @@ import { createUser, getUserById } from "~/db/api";
 import { UserData, useUserStore } from "~/db/userStore";
 
 export const useAuth = () => {
-  const setData = useUserStore((state) => state.setData);
+  const setUser = useUserStore((state) => state.setUser);
   const launchParams = useLaunchParams();
   const webAppData = launchParams.initData;
   const queryClient = useQueryClient();
@@ -15,19 +15,21 @@ export const useAuth = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
+    onError: (error) => {
+      console.error("Failed to create user:", error);
+    },
   });
 
-  const { data: isUserExist, refetch: refetchUserExistence } = useQuery({
-    queryKey: ["users", "isUserExist"],
-    queryFn: () =>
-      getUserById(webAppData!.user!.id).then((data) => data?.length > 0),
+  const { data: isUserExist, isFetching: isUserLoading } = useQuery({
+    queryKey: ["users", webAppData?.user?.id],
+    queryFn: () => getUserById(webAppData!.user!.id).then((result) => result?.length !== 0),
     enabled: !!webAppData?.user?.id,
-    initialData: false, // Assuming user does not exist initially
+    initialData: false,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    // Ensure webAppData is available and user's existence is checked
-    if (webAppData?.user && isUserExist === false) {
+    if (webAppData?.user && !isUserExist && !isUserLoading) {
       createUserMutation.mutate({
         telegram_id: webAppData.user.id,
         username: webAppData.user.username,
@@ -36,19 +38,11 @@ export const useAuth = () => {
         language_code: webAppData.user.languageCode,
       });
     }
-  }, [webAppData, isUserExist]); // Depend on webAppData and isUserExist
+  }, [webAppData, isUserExist, isUserLoading]);
 
   useEffect(() => {
-    // Store user data in state management if webAppData is available
-    if (webAppData && Object.keys(webAppData).length > 0) {
-      setData(webAppData.user as UserData);
+    if (webAppData?.user) {
+      setUser(webAppData.user as UserData);
     }
-  }, [webAppData, setData]);
-
-  useEffect(() => {
-    // Refetch the user existence status when the user's ID is known
-    if (webAppData?.user?.id) {
-      refetchUserExistence();
-    }
-  }, [webAppData?.user?.id, refetchUserExistence]);
+  }, [webAppData, setUser]);
 };

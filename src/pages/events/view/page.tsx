@@ -17,7 +17,7 @@ import { Calendar, MapPin } from "lucide-react";
 
 export default function EventViewPage() {
   const { eventId } = useParams();
-  const userData = useUserStore((state) => state.data);
+  const userData = useUserStore((state) => state.user);
   const queryClient = useQueryClient();
 
   const participateMutation = useMutation({
@@ -86,7 +86,7 @@ export default function EventViewPage() {
       mainButton.on("click", handleParticipate);
     }
     mainButton.setText(isParticipated ? "Отменить участие" : "Принять участие");
-    mainButton.setBackgroundColor(isParticipated ? "#DC2323" : "#");
+    mainButton.setBgColor(isParticipated ? "#DC2323" : "#");
 
     return () => {
       mainButton.off("click", handleParticipate);

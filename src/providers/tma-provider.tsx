@@ -1,54 +1,51 @@
-import { DisplayGate, SDKInitOptions, SDKProvider } from "@tma.js/sdk-react";
+import { mockTelegramEnv, parseInitData, SDKProvider } from "@tma.js/sdk-react";
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "~/components/ui/button";
-import LogoPng from "~/assets/logo.png";
-const options: SDKInitOptions = {
-  acceptCustomStyles: true,
-  cssVars: true,
-};
 
-function SDKProviderError() {
-  return (
-    <div className="h-dvh w-dvw flex  flex-col items-center justify-center gap-4">
-      <Button
-        asChild
-        className="rounded-full w-40 h-40 p-1 text-xl active:p-2 hover:p-0 hover:scale-110 active:scale-90 transition-all"
-      >
-        <Link to="https://t.me/yaswamibot">
-          <img src={LogoPng} alt="" className="h-38 w-38" />
-        </Link>
-      </Button>
-      <h1 className="font-bold font-display">
-        Пожалуйста откройте приложение в телеграме
-      </h1>
-      {/* <blockquote>
-        <code>
-          {error instanceof Error ? error.message : JSON.stringify(error)}
-        </code>
-      </blockquote> */}
-    </div>
-  );
-}
+if (import.meta.env.DEV) {
+  const initDataRaw = new URLSearchParams([
+    ['user', JSON.stringify({
+      id: 99281932,
+      first_name: 'Andrew',
+      last_name: 'Rogue',
+      username: 'rogue',
+      language_code: 'en',
+      is_premium: true,
+      allows_write_to_pm: true,
+    })],
+    ['hash', '89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31'],
+    ['auth_date', '1716922846'],
+    ['start_param', 'debug'],
+    ['chat_type', 'sender'],
+    ['chat_instance', '8428209589180549439'],
+  ]).toString();
 
-function SDKProviderLoading() {
-  return <div>SDK is loading.</div>;
-}
-
-function SDKInitialState() {
-  return <div>Waiting for initialization to start.</div>;
+  mockTelegramEnv({
+    themeParams: {
+      accentTextColor: '#6ab2f2',
+      bgColor: '#17212b',
+      buttonColor: '#5288c1',
+      buttonTextColor: '#ffffff',
+      destructiveTextColor: '#ec3942',
+      headerBgColor: '#17212b',
+      hintColor: '#708499',
+      linkColor: '#6ab3f3',
+      secondaryBgColor: '#232e3c',
+      sectionBgColor: '#17212b',
+      sectionHeaderTextColor: '#6ab3f3',
+      subtitleTextColor: '#708499',
+      textColor: '#f5f5f5',
+    },
+    initData: parseInitData(initDataRaw),
+    initDataRaw,
+    version: '7.2',
+    platform: 'tdesktop',
+  });
 }
 
 export const TmaProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <SDKProvider options={options}>
-      <DisplayGate
-        error={SDKProviderError}
-        loading={SDKProviderLoading}
-        initial={SDKInitialState}
-      >
-        {children}
-      </DisplayGate>
+    <SDKProvider debug acceptCustomStyles>
+      {children}
     </SDKProvider>
   );
 };

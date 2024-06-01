@@ -35,7 +35,7 @@ export const Participants = ({ eventId, className }: { eventId: number, classNam
           {participants.map((participant) => {
             const user = participant.user as unknown as UserData;
 
-            return <UserCard disableName userId={user.telegram_id!} />;
+            return <UserCard disableName key={user.telegram_id} userId={user.telegram_id!} />;
           })}
         </div>
         <Button variant="outline" asChild className="rounded-full gap-2 ">
