@@ -8,14 +8,16 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useBackButton } from "@tma.js/sdk-react";
 
 export default function EventPage() {
   const { eventId } = useParams();
+  const bb = useBackButton();
 
   const { data } = useQuery({
     queryKey: ["event"],
     queryFn: () => getEventById(eventId!),
-    enabled: !!eventId
+    enabled: !!eventId,
   });
 
   const updateEventMutation = useMutation({
@@ -33,16 +35,20 @@ export default function EventPage() {
   };
 
   useEffect(() => {
+    if (bb) {
+      bb.show();
+    }
+  }, [bb]);
+
+  useEffect(() => {
     if (data) {
       form.reset({ ...data[0] });
     }
   }, [data]);
 
   return (
-    data && (
-      <div className="container py-8 space-y-2">
-        <EventForm form={form} onSubmit={handleSubmit} />
-      </div>
-    )
+    <div className="container py-8 space-y-2">
+      <EventForm form={form} onSubmit={handleSubmit} />
+    </div>
   );
 }

@@ -4,90 +4,95 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(240 10% 3.9%);
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(240 10% 3.9%);
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(240 10% 3.9%);
  
-    --primary: 0 0% 0%;
-    --primary-foreground: 140 100% 70%;
-
-    --master-background: radial-gradient(26.67% 62.96% at 86.46% 88.22%, #eeeeee 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(43.97% 54.13% at 4.53% 7.98%, rgb(245 246 247) 0%, rgba(0, 0, 0, 0) 100%), radial-gradient(36.66% 50.26% at 35.17% 116.1%, #eeeeee 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, hsl(197.14deg 14.29% 90.39%) 0%, hsl(225deg 22.22% 96.47%) 109.55%);
+    --primary: hsl(0 0% 0%);
+    --primary-foreground: hsl(140 100% 70%);
  
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: hsl(240 4.8% 95.9%);
+    --secondary-foreground: hsl(240 5.9% 10%);
  
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
- 
+    --muted: hsl(240 4.8% 95.9%);
+    --muted-foreground: hsl(240 3.8% 46.1%);
     
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: hsl(240 4.8% 95.9%);
+    --accent-foreground: hsl(240 5.9% 10%);
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(0 0% 98%);
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --border: hsl(240 5.9% 90%);
+    --input: hsl(240 5.9% 90%);
+    --ring: hsl(240 10% 3.9%);
  
-    --radius: 0.5rem;
+    --radius: hsl(0.5rem);
   }
  
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: hsl(240 10% 3.9%);
+    --foreground: hsl(0 0% 98%);
  
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: hsl(240 10% 3.9%);
+    --card-foreground: hsl(0 0% 98%);
+ 
+    --popover: hsl(240 10% 3.9%);
+    --popover-foreground: hsl(0 0% 98%);
+ 
+    --primary: hsl(0 0% 98%);
+    --primary-foreground: hsl(240 5.9% 10%);
+ 
+    --secondary: hsl(240 3.7% 15.9%);
+    --secondary-foreground: hsl(0 0% 98%);
+ 
+    --muted: hsl(240 3.7% 15.9%);
+    --muted-foreground: hsl(240 5% 64.9%);
+ 
+    --accent: hsl(240 3.7% 15.9%);
+    --accent-foreground: hsl(0 0% 98%);
+ 
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(0 0% 98%);
+ 
+    --border: hsl(240 3.7% 15.9%);
+    --input: hsl(240 3.7% 15.9%);
+    --ring: hsl(240 4.9% 83.9%);
+  }
+
+  .twa {
+    --background: var(--tg-theme-bg-color);
+    --foreground: var(--tg-theme-text-color);
+ 
+    --card: var(--tg-theme-section-bg-color);
+    --card-foreground: var(--tg-theme-text-color);
  
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: var(--tg-theme-button-color);
+    --primary-foreground: var(--tg-theme-button-text-color);
  
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: var(--tg-theme-secondary-bg-color);
+    --secondary-foreground: var(--tg-theme-text-color);
  
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: var(--tg-theme-hint-color);
+    --muted-foreground: var(--tg-theme-hint-color);
  
-    --accent: 240 3.7% 15.9%;
+    --accent: var(--tg-theme-accent-text-color);
     --accent-foreground: 0 0% 98%;
  
-    --destructive: 0 62.8% 30.6%;
+    --destructive: var(--tg-theme-destructive-text-color);
     --destructive-foreground: 0 0% 98%;
  
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
-
-  .twa,
-  :root[class~='twa'] {
-    --hero-background: radial-gradient(25.28% 59.69% at 96.14% 0%, #000 0%, rgba(0, 0, 0, 0) 100%),
-      radial-gradient(43.97% 54.13% at 4.53% 7.98%, #000 0%, rgba(0, 0, 0, 0) 100%),
-      radial-gradient(23.77% 42.42% at 35.17% 116.1%, #000 0%, rgba(0, 0, 0, 0) 100%),
-      linear-gradient(180deg, var(--tg-theme-button-color) 0%, #000 200.55%);
-
-    --primary: var(--tg-theme-button-text-color);
-    --primary-foreground: var(--tg-theme-button-color);
-  }
-
-  .dark .twa,
-  :root[class~='twa'].dark {
-    --primary: var(--tg-theme-button-text-color); 
-    --primary-foreground: var(--tg-theme-button-color);
-
-    --hero-background: radial-gradient(25.28% 59.69% at 96.14% 0%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
-      radial-gradient(43.97% 54.13% at 4.53% 7.98%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
-      radial-gradient(23.77% 42.42% at 35.17% 116.1%, var(--background) 0%, rgba(0, 0, 0, 0) 100%),
-      linear-gradient(180deg, var(--tg-theme-button-color) 0%, var(--background) 150.55%);
+    --border: hsl(240 3.7% 15.9%);
+    --input: hsl(240 3.7% 15.9%);
+    --ring: hsl(240 4.9% 83.9%);
   }
 }
  

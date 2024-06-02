@@ -1,38 +1,38 @@
-import { Button } from "../components/ui/button";
 import LogoPng from "~/assets/logo.png";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useMainButton, useBackButton } from "@tma.js/sdk-react";
+import { isTMA } from "@tma.js/sdk";
+import { useMainButton } from "@tma.js/sdk-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "~/components/ui/button";
 
 export default function Index() {
-  const mainButton = useMainButton();
-  const backButton = useBackButton();
+  const mb = useMainButton();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    backButton.off("click", () => {});
-    backButton.hide();
+    const handleClick = () => {
+      navigate("/events/create");
+      console.log("click");
+    };
 
-    mainButton.disable();
-    mainButton.hide();
-  }, []);
+    mb.setText("Создать событие").show().on("click", handleClick);
+
+    return () => {
+      mb.hide().off("click", handleClick);
+    };
+  }, [mb]);
 
   return (
     <div className="h-dvh w-dvh flex flex-col gap-3 justify-center items-center">
-      <Button
-        className="rounded-full w-40 h-40 p-1 text-xl hover:p-0 active:p-2 hover:scale-110 active:scale-90 transition-all"
-        asChild
-      >
-        <Link to="/events/create">
-          <img src={LogoPng} alt="" />
-        </Link>
-      </Button>
-      <div className="text-muted-foreground uppercase font-bold text-xs">
-        Создать событие
-      </div>
+      <img src={LogoPng} alt="" width="240px" />
+      <h1 className="text-2xl font-bold">Yaswami</h1>
+      <p>У вас пока нет созданных событий</p>
 
-      <Button asChild>
-        <Link to={"/events/19/view"}>Проверить событие</Link>
-      </Button>
+      {!isTMA() && (
+        <Button asChild variant="default">
+          <Link to={"/events/create"}>Создать событие</Link>
+        </Button>
+      )}
     </div>
   );
 }

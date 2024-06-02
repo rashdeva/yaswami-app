@@ -1,32 +1,35 @@
-import React, { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import "./globals.css";
+import { Router } from "react-router-dom";
 import { TmaProvider } from "./providers/tma-provider.tsx";
-import { useLaunchParams } from "@tma.js/sdk-react";
+import { initNavigator } from "@tma.js/sdk-react";
 import App from "./app.tsx";
 import { QueryProvider } from "./providers/query-provider.tsx";
+import { useIntegration } from "@tma.js/react-router-integration";
+
+import "@telegram-apps/telegram-ui/dist/styles.css";
+import "./globals.css";
 
 export const Root = () => {
-  const debug = useLaunchParams().startParam === "debug";
+  const navigator = useMemo(() => initNavigator("app-navigation-state"), []);
+  const [location, reactNavigator] = useIntegration(navigator);
 
+  // Don't forget to attach the navigator to allow it to control the BackButton state as well
+  // as browser history.
   useEffect(() => {
-    if (debug) {
-      import("eruda").then((lib) => lib.default.init());
-    }
-  }, [debug]);
+    navigator.attach();
+    return () => navigator.detach();
+  }, [navigator]);
 
-  return <App />;
-};
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
+  return (
+    <Router location={location} navigator={reactNavigator}>
       <QueryProvider>
         <TmaProvider>
-          <Root />
+          <App />
         </TmaProvider>
       </QueryProvider>
-    </BrowserRouter>
-  </React.StrictMode>
-);
+    </Router>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")!).render(<Root />);
