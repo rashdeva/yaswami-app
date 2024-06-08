@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Link } from "react-router-dom";
 import { UserData } from "~/db/userStore";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { getProfilePhotoUrl } from "~/db/storage";
 
 export const getName = (user: UserData): string => {
   if (user.first_name) return `${user.first_name} ${user.last_name}`;
@@ -32,12 +33,22 @@ export function UserCard({
     enabled: !!userId,
   });
 
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
+
+  useEffect(() => {
+    if (user?.photo) {
+      getProfilePhotoUrl(user.photo)
+        .then((url) => setProfilePhotoUrl(url))
+        .catch((error) => console.error(error));
+    }
+  }, [user]);
+
   return (
     user && (
       <Link to={`https://t.me/${user.username}`}>
         <span className="inline-flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={""} />
+          <AvatarImage src={profilePhotoUrl} />
             <AvatarFallback>
               {getShortName(user as unknown as UserData)}
             </AvatarFallback>

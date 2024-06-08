@@ -1,7 +1,7 @@
 import { mockTelegramEnv, parseInitData, SDKProvider } from "@tma.js/sdk-react";
 import { ReactNode } from "react";
 
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && false) {
   const initDataRaw = new URLSearchParams([
     [
       "user",
@@ -28,7 +28,7 @@ if (import.meta.env.DEV) {
   mockTelegramEnv({
     themeParams: {
       accentTextColor: "#0077cc",
-      bgColor: "#ffffff",
+      bgColor: "#dddddd",
       buttonColor: "#0077cc",
       buttonTextColor: "#ffffff",
       destructiveTextColor: "#ff4d4d",

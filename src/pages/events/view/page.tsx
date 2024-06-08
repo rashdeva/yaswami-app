@@ -14,8 +14,11 @@ import LogoPng from "~/assets/logo.png";
 import { useMainButton } from "@tma.js/sdk-react";
 import { useCallback, useEffect } from "react";
 import { Calendar, MapPin } from "lucide-react";
+import { useBack } from "~/hooks/useBack";
 
 export default function EventViewPage() {
+  useBack('/');
+  
   const { eventId } = useParams();
   const userData = useUserStore((state) => state.user);
   const queryClient = useQueryClient();
@@ -39,6 +42,8 @@ export default function EventViewPage() {
     queryFn: () => getEventById(eventId!),
     enabled: !!eventId,
   });
+
+  console.log(eventData)
 
   const { data: isParticipated } = useQuery({
     queryKey: ["participants", "isParticipated"],
@@ -150,7 +155,7 @@ export default function EventViewPage() {
               className="h-full rounded-2xl inline-flex gap-2 text-sm"
               variant="ghost"
             >
-              <Link to="https://t.me/yaswami_bot">
+              <Link to={`https://t.me/${import.meta.env.VITE_BOT_NICKNAME}`}>
                 <img src={LogoPng} width={20} height={20} alt="" />
                 Yaswami Bot
               </Link>

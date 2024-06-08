@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Index from "./pages/page";
 import EventEditPage from "./pages/events/edit/page";
 import { useAuth } from "./hooks/useAuth";
@@ -12,7 +12,6 @@ function App() {
   useAuth();
   useReroute();
 
-  // const lp = useLaunchParams();
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const miniApp = useMiniApp();
@@ -42,7 +41,6 @@ function App() {
         <Route path="/events/:eventId" element={<EventEditPage />} />
         <Route path="/events/:eventId/view" element={<EventViewPage />} />
         <Route path="/events/:eventId/pay" element={<EventPayPage />} />
-        <Route path='*' element={<Navigate to='/'/>}/>
       </Routes>
     </div>
   );

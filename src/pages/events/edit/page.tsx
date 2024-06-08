@@ -1,4 +1,3 @@
-import { EventForm } from "../../../components/event-form";
 import { getEventById, updateEvent } from "../../../db/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventSchema } from "../../../db/zod";
@@ -8,11 +7,14 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useBackButton } from "@tma.js/sdk-react";
+import { EventForm2 } from "~/components/event-form2";
+import { useBack } from "~/hooks/useBack";
 
 export default function EventPage() {
+  useBack('/');
+  
   const { eventId } = useParams();
-  const bb = useBackButton();
+  
 
   const { data } = useQuery({
     queryKey: ["event"],
@@ -35,20 +37,14 @@ export default function EventPage() {
   };
 
   useEffect(() => {
-    if (bb) {
-      bb.show();
-    }
-  }, [bb]);
-
-  useEffect(() => {
     if (data) {
       form.reset({ ...data[0] });
     }
   }, [data]);
 
   return (
-    <div className="container py-8 space-y-2">
-      <EventForm form={form} onSubmit={handleSubmit} />
+    <div className="container py-8">
+      <EventForm2 form={form} onSubmit={handleSubmit} />
     </div>
   );
 }
