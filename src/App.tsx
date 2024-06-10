@@ -31,6 +31,7 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.add('twa');
     miniApp.ready();
+    miniApp.requestWriteAccess();
   }, []);
 
   return (

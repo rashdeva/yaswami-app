@@ -12,7 +12,7 @@ function generateTelegramShareUrl(eventId?: string, text: string = "") {
   if (!eventId) return "";
 
   const encodedText = encodeURIComponent(text);
-  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswami_bot/join?startapp=event-${eventId}`;
+  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswamibot/join?startapp=event-${eventId}`;
 }
 
 export const Participants = ({ eventId, className }: { eventId: number, className?: string }) => {
