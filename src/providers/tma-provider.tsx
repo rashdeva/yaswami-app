@@ -1,7 +1,7 @@
 import { mockTelegramEnv, parseInitData, SDKProvider } from "@tma.js/sdk-react";
 import { ReactNode } from "react";
 
-if (import.meta.env.DEV && false) {
+if (import.meta.env.DEV) {
   const initDataRaw = new URLSearchParams([
     [
       "user",

@@ -7,9 +7,7 @@ import App from "./app.tsx";
 import { QueryProvider } from "./providers/query-provider.tsx";
 import { useIntegration } from "@tma.js/react-router-integration";
 
-import "@telegram-apps/telegram-ui/dist/styles.css";
 import "./globals.css";
-import { AppRoot } from "@telegram-apps/telegram-ui";
 
 export const Root = () => {
   const navigator = useMemo(() => initNavigator("app-navigation-state"), []);
@@ -26,9 +24,7 @@ export const Root = () => {
     <BrowserRouter>
       <QueryProvider>
         <TmaProvider>
-          <AppRoot appearance="light" platform="ios">
-            <App />
-          </AppRoot>
+          <App />
         </TmaProvider>
       </QueryProvider>
     </BrowserRouter>

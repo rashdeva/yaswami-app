@@ -43,8 +43,6 @@ export default function EventViewPage() {
     enabled: !!eventId,
   });
 
-  console.log(eventData)
-
   const { data: isParticipated } = useQuery({
     queryKey: ["participants", "isParticipated"],
     queryFn: () => getParticipateStatus(Number(eventId), userData.id!),

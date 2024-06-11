@@ -89,10 +89,6 @@
  
     --destructive: var(--tg-theme-destructive-text-color);
     --destructive-foreground: 0 0% 98%;
- 
-    --border: hsl(240 3.7% 15.9%);
-    --input: hsl(240 3.7% 15.9%);
-    --ring: hsl(240 4.9% 83.9%);
   }
 }
  

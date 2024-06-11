@@ -7,6 +7,7 @@ import { useReroute } from "./hooks/useReroute";
 import { bindMiniAppCSSVars, bindThemeParamsCSSVars, bindViewportCSSVars, useMiniApp, useThemeParams, useViewport } from "@tma.js/sdk-react";
 import { useEffect } from "react";
 import EventPayPage from "./pages/events/pay/page";
+import { RegisterPage } from "./pages/register/page";
 
 function App() {
   useAuth();
@@ -38,6 +39,7 @@ function App() {
     <div className="container max-w-xl">
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/events/create" element={<EventEditPage />} />
         <Route path="/events/:eventId" element={<EventEditPage />} />
         <Route path="/events/:eventId/view" element={<EventViewPage />} />

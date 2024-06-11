@@ -1,5 +1,16 @@
 import * as z from "zod";
 
+export const userSchema = z.object({
+  created_at: z.string(),
+  first_name: z.string().nullable(),
+  id: z.number(),
+  language_code: z.string().nullable(),
+  last_name: z.string().nullable(),
+  photo: z.string().nullable(),
+  telegram_id: z.number().nullable(),
+  username: z.string().nullable(),
+});
+
 export const eventSchema = z.object({
   id: z.number(),
   comment: z.string().nullable(),
