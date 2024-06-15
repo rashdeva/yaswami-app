@@ -24,20 +24,22 @@ export default function MainPage() {
     };
 
     mb.setBgColor("#")
+      .enable()
       .setText(t("mainPage.preRegistrationButton"))
       .show()
       .on("click", handleClick);
 
     return () => {
-      mb.hide().off("click", handleClick);
+      mb.hide().disable().off("click", handleClick);
     };
   }, [mb, navigate, t]);
 
   return (
-    <div className="h-dvh py-4">
+    <div className="h-dvh flex flex-col justify-center py-4">
       <div className="text-center flex flex-col items-center gap-4">
-        <img src={LogoPng} className="max-w-40" alt="" />
-        <h1 className="text-xl font-bold">{t("mainPage.welcome")}</h1>
+        <img src={LogoPng} className="max-w-40 animate-spin-slow" alt="" />
+        <h1 className="text-3xl font-bold">YASWAMI</h1>
+        <h2 className="text-xl font-bold">{t("mainPage.welcome")}</h2>
         <p>{t("mainPage.description")}</p>
 
         {!isTMA() && (

@@ -66,11 +66,10 @@ module.exports = {
         },
       },
       backgroundImage: {
-        master: 'var(--master-background)',
-        
+        master: "var(--master-background)",
       },
       borderRadius: {
-        '3xl': "2rem",
+        "3xl": "2rem",
         lg: "var(--radius)",
         md: "8px",
         sm: "calc(var(--radius) - 4px)",
@@ -88,6 +87,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "spin-slow": "spin 30s linear infinite",
       },
     },
   },

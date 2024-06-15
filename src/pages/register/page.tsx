@@ -1,5 +1,5 @@
 import { Input } from "~/components/ui/input";
-import { SelectCity } from "./city-input";
+import { SelectCity } from "../../components/city-input/city-input";
 import { Textarea } from "~/components/ui/textarea";
 import {
   Form,
@@ -45,12 +45,13 @@ export const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     mb.setBgColor("#")
+      .enable()
       .setText("Зарегистрироваться")
       .show()
       .on("click", () => form.handleSubmit(handleSubmit)());
 
     return () => {
-      mb.hide().off("click", () => form.handleSubmit(handleSubmit)());
+      mb.hide().disable().off("click", () => form.handleSubmit(handleSubmit)());
     };
   }, [mb, form]);
 
@@ -64,12 +65,12 @@ export const RegisterPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center pb-10">
+    <div className="flex flex-col items-center pt-4 pb-10">
       <Form {...form}>
         <h1 className="text-lg font-bold mb-2">{t("registerForm.title")}</h1>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-6"
+          className="space-y-6 w-full"
         >
           <div className="space-y-2">
             <FormField

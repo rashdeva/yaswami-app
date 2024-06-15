@@ -5,7 +5,7 @@
     "about": "About you",
     "aboutDescription": "About you",
     "instagram": "Instagram account",
-    "instagramDescription": "Example @yaswami or https://instagram.com/yaswami",
+    "instagramDescription": "https://instagram.com/yaswami",
     "birthday": "Date of birth",
     "gender": "Gender",
     "genderMale": "Male",
@@ -13,7 +13,7 @@
     "submit": "Register"
   },
   "mainPage": {
-    "welcome": "Yaswami - masters and students space",
+    "welcome": "Event marketplace from masters",
     "description": "Welcome to the space of spiritual development! We help masters create and manage your events. The service is currently under development, go through pre-registration to be among the first to know about the news and join our group.",
     "preRegistrationButton": "Pre-registration"
   }

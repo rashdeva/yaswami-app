@@ -14,8 +14,10 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json',
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
+    ns: ['translation', 'cities'],
+    defaultNS: 'translation',
   });
 
 export default i18n;

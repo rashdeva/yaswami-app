@@ -45,7 +45,7 @@ function App() {
   }, []);
 
   return (
-    <div className="container max-w-xl">
+    <div className="container max-w-lg">
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/register" element={<RegisterPage />} />
