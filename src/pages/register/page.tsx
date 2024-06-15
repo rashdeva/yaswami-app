@@ -64,7 +64,7 @@ export const RegisterPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pb-10">
       <Form {...form}>
         <h1 className="text-lg font-bold mb-2">{t("registerForm.title")}</h1>
         <form
