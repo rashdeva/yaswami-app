@@ -71,6 +71,9 @@
  
     --card: var(--tg-theme-section-bg-color);
     --card-foreground: var(--tg-theme-text-color);
+
+    --popover: var(--tg-theme-section-bg-color);
+    --popover-foreground: var(--tg-theme-text-color);
   
     --primary: var(--tg-theme-button-color);
     --primary-foreground: var(--tg-theme-button-text-color);
