@@ -69,7 +69,7 @@ export const RegisterPage: React.FC = () => {
         <h1 className="text-lg font-bold mb-2">{t("registerForm.title")}</h1>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="w-2/3 space-y-6"
+          className="space-y-6"
         >
           <div className="space-y-2">
             <FormField

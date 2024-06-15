@@ -6,7 +6,7 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "0.5rem",
+        DEFAULT: "1rem",
         lg: "2rem",
       },
       screens: {
