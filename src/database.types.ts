@@ -125,6 +125,50 @@ export type Database = {
           },
         ]
       }
+      pre_registration: {
+        Row: {
+          about: string | null
+          birthday: string | null
+          city: string | null
+          created_at: string
+          gender: string | null
+          id: number
+          instagram: string | null
+          name: string | null
+          user_id: number | null
+        }
+        Insert: {
+          about?: string | null
+          birthday?: string | null
+          city?: string | null
+          created_at?: string
+          gender?: string | null
+          id?: number
+          instagram?: string | null
+          name?: string | null
+          user_id?: number | null
+        }
+        Update: {
+          about?: string | null
+          birthday?: string | null
+          city?: string | null
+          created_at?: string
+          gender?: string | null
+          id?: number
+          instagram?: string | null
+          name?: string | null
+          user_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pre_registration_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -132,6 +176,7 @@ export type Database = {
           id: number
           language_code: string | null
           last_name: string | null
+          photo: string | null
           status: Database["public"]["Enums"]["user_status"] | null
           telegram_id: number | null
           username: string | null
@@ -142,6 +187,7 @@ export type Database = {
           id?: number
           language_code?: string | null
           last_name?: string | null
+          photo?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           telegram_id?: number | null
           username?: string | null
@@ -152,6 +198,7 @@ export type Database = {
           id?: number
           language_code?: string | null
           last_name?: string | null
+          photo?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           telegram_id?: number | null
           username?: string | null
