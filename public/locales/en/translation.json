@@ -11,5 +11,10 @@
     "genderMale": "Male",
     "genderFemale": "Female",
     "submit": "Register"
+  },
+  "mainPage": {
+    "welcome": "Yaswami - A Space for Masters and Students",
+    "description": "Welcome to the space of spiritual development! We help masters create and manage your events. The service is currently under development, go through pre-registration to be among the first to know about the news and join our group.",
+    "preRegistrationButton": "Pre-registration"
   }
 }

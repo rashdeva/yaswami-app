@@ -1,16 +1,20 @@
 {
-    "registerForm": {
-      "title": "Создать профиль",
-      "name": "Имя",
-      "about": "О вас",
-      "aboutDescription": "О вас",
-      "instagram": "Аккаунт Instagram",
-      "instagramDescription": "Пример: @yaswami или https://instagram.com/yaswami",
-      "birthday": "Дата рождения",
-      "gender": "Пол",
-      "genderMale": "Мужчина",
-      "genderFemale": "Женщина",
-      "submit": "Зарегистрироваться"
-    }
+  "registerForm": {
+    "title": "Создать профиль",
+    "name": "Имя",
+    "about": "О вас",
+    "aboutDescription": "О вас",
+    "instagram": "Аккаунт Instagram",
+    "instagramDescription": "Пример: @yaswami или https://instagram.com/yaswami",
+    "birthday": "Дата рождения",
+    "gender": "Пол",
+    "genderMale": "Мужчина",
+    "genderFemale": "Женщина",
+    "submit": "Зарегистрироваться"
+  },
+  "mainPage": {
+    "welcome": "Yaswami - Пространство для мастеров и учеников",
+    "description": "Добро пожаловать в пространство духовного развития! Мы поможем мастерам создавать и управлять вашими событиями. Сервис сейчас находится в разработке, пройдите пре-регистрацию, чтобы быть в числе первых, кто узнает о новостях, и присоединяйтесь к нашей группе.",
+    "preRegistrationButton": "Пре-регистрация"
   }
-  
+}
