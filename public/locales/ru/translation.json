@@ -1,0 +1,16 @@
+{
+    "registerForm": {
+      "title": "Создать профиль",
+      "name": "Имя",
+      "about": "О вас",
+      "aboutDescription": "О вас",
+      "instagram": "Аккаунт Instagram",
+      "instagramDescription": "Пример: @yaswami или https://instagram.com/yaswami",
+      "birthday": "Дата рождения",
+      "gender": "Пол",
+      "genderMale": "Мужчина",
+      "genderFemale": "Женщина",
+      "submit": "Зарегистрироваться"
+    }
+  }
+  

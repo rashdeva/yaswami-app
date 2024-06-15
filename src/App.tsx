@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import Index from "./pages/page";
-import EventEditPage from "./pages/events/edit/page";
 import { useAuth } from "./hooks/useAuth";
-import EventViewPage from "./pages/events/view/page";
 import { useReroute } from "./hooks/useReroute";
 import { bindMiniAppCSSVars, bindThemeParamsCSSVars, bindViewportCSSVars, useMiniApp, useThemeParams, useViewport } from "@tma.js/sdk-react";
 import { useEffect } from "react";
-import EventPayPage from "./pages/events/pay/page";
 import { RegisterPage } from "./pages/register/page";
+
+import EventsPage from "./pages/events/page";
+import EventEditPage from "./pages/events/edit/page";
+import EventViewPage from "./pages/events/view/page";
+import EventPayPage from "./pages/events/pay/page";
+import MainPage from "./pages/page";
 
 function App() {
   useAuth();
@@ -38,8 +40,9 @@ function App() {
   return (
     <div className="container max-w-xl">
       <Routes>
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/events/create" element={<EventEditPage />} />
         <Route path="/events/:eventId" element={<EventEditPage />} />
         <Route path="/events/:eventId/view" element={<EventViewPage />} />

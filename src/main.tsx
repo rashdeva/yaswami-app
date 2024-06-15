@@ -8,6 +8,8 @@ import { QueryProvider } from "./providers/query-provider.tsx";
 import { useIntegration } from "@tma.js/react-router-integration";
 
 import "./globals.css";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n.ts";
 
 export const Root = () => {
   const navigator = useMemo(() => initNavigator("app-navigation-state"), []);
@@ -24,7 +26,9 @@ export const Root = () => {
     <BrowserRouter>
       <QueryProvider>
         <TmaProvider>
-          <App />
+          <I18nextProvider i18n={i18n}>
+            <App />
+          </I18nextProvider>
         </TmaProvider>
       </QueryProvider>
     </BrowserRouter>

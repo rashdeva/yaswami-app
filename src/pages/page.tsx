@@ -4,20 +4,11 @@ import { isTMA } from "@tma.js/sdk";
 import { useBackButton, useMainButton } from "@tma.js/sdk-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "~/components/ui/button";
-import { Placeholder } from "@telegram-apps/telegram-ui";
-import { useQuery } from "@tanstack/react-query";
-import { getEvents } from "~/db/api";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
-export default function Index() {
+export default function MainPage() {
   const mb = useMainButton();
   const bb = useBackButton();
   const navigate = useNavigate();
-
-  const { data } = useQuery({
-    queryKey: ["event"],
-    queryFn: getEvents,
-  });
 
   useEffect(() => {
     if (bb) {
@@ -27,10 +18,10 @@ export default function Index() {
 
   useEffect(() => {
     const handleClick = () => {
-      navigate("/events/create");
+      navigate("/register");
     };
 
-    mb.setBgColor('#').setText("Create Event").show().on("click", handleClick);
+    mb.setBgColor("#").setText("Пре-регистрация").show().on("click", handleClick);
 
     return () => {
       mb.hide().off("click", handleClick);
@@ -39,41 +30,24 @@ export default function Index() {
 
   return (
     <div className="h-dvh py-4">
-      {data?.length === 0 && (
-        <Placeholder
-          header="Yaswami"
-          description="У вас пока нет созданных событий"
-        >
-          <img src={LogoPng} alt="" className="w-32" />
-        </Placeholder>
-      )}
+      <div className="text-center flex flex-col items-center gap-4">
+        <img src={LogoPng} className="max-w-40" alt="" />
+        <h1 className="text-xl font-bold">
+          Yaswami - Пространство для мастеров и учеников
+        </h1>
+        <p>
+          Добро пожаловать в пространство духовного развития! Мы поможем
+          мастерам создавать и управлять вашими событиями. Сервис сейчас
+          находится в разработке, пройдите пре-регистрацию, чтобы быть в числе
+          первых, кто узнает о новостях, и присоединяйтесь к нашей группе.
+        </p>
 
-      {data && data?.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold">Your events</h1>
-          {data.map((event) => {
-            return (
-              <Card className="rounded-lg">
-                <Link to={`/events/${event.id}/view`}>
-                  <CardHeader>{event.title}</CardHeader>
-                  <CardContent>
-                    <div>
-                      {event.start_date} {event.start_time}
-                    </div>
-                    <div>{event.location}</div>
-                  </CardContent>
-                </Link>
-              </Card>
-            );
-          })}
-        </div>
-      )}
-
-      {!isTMA() && (
-        <Button asChild variant="default">
-          <Link to={"/events/create"}>Create Event</Link>
-        </Button>
-      )}
+        {!isTMA() && (
+          <Button asChild variant="default">
+            <Link to={"/register"}>Пре-регистрация</Link>
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

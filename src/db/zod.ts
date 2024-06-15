@@ -50,3 +50,13 @@ export const createEventSchema = eventSchema.pick({
   max_participants: true,
   thumbnail_url: true,
 });
+
+export const preRegistrationSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  about: z.string().min(1, "About is required").optional(),
+  instagram: z.string().url("Invalid URL format").optional(),
+  birthday: z.string().min(1, "Date of birth is required"),
+  city: z.string().min(1, "City is required"),
+  gender: z.enum(["Male", "Female"]),
+  user_id: z.number().optional(),
+});

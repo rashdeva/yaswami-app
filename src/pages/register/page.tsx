@@ -12,107 +12,181 @@ import {
 } from "~/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { userSchema } from "~/db/zod";
+import { preRegistrationSchema } from "~/db/zod";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Label } from "~/components/ui/label";
+import { Button } from "~/components/ui/button";
+import { isTMA } from "@tma.js/sdk";
+import { useMain } from "~/hooks/useMain";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { supabase } from "~/lib/supabase";
+import { z } from "zod";
 
-export const RegisterPage = () => {
-  const form = useForm<z.infer<typeof userSchema>>({
-    resolver: zodResolver(userSchema),
-    defaultValues: {
-      username: "",
-    },
+export const RegisterPage: React.FC = () => {
+  const { t } = useTranslation();
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
+
+  useMain({ text: t("registerForm.submit"), onClick: handleSubmit });
+
+  const form = useForm<z.infer<typeof preRegistrationSchema>>({
+    mode: "onSubmit",
+    resolver: zodResolver(preRegistrationSchema),
   });
 
-  function onSubmit() {}
+  async function handleSubmit(values: typeof preRegistrationSchema) {
+    const { data, error } = await supabase
+      .from("pre_registration")
+      .insert([values]);
+
+    if (error) {
+      console.error("Error inserting data:", error);
+    } else {
+      setSubmissionSuccess(true);
+    }
+  }
+
+  if (submissionSuccess) {
+    return (
+      <div className="flex flex-col items-center">
+        <h1 className="text-lg font-bold mb-2">Registration Successful!</h1>
+        <p>Thank you for registering. We will get back to you soon.</p>
+      </div>
+    );
+  }
 
   return (
-    <Form {...form}>
-      <h1 className="text-lg font-bold mb-2">Create Profile</h1>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <div className="space-y-2">
-          <Input placeholder="Name" />
+    <div className="flex flex-col items-center">
+      <Form {...form}>
+        <h1 className="text-lg font-bold mb-2">{t("registerForm.title")}</h1>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="w-2/3 space-y-6"
+        >
+          <div className="space-y-2">
+            <FormField
+              name="name"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} placeholder={t("registerForm.name")} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="about"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder={t("registerForm.about")}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {t("registerForm.aboutDescription")}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
-            name="username"
+            name="instagram"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea placeholder="About you" />
+                  <Input {...field} placeholder={t("registerForm.instagram")} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  {t("registerForm.instagramDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </div>
 
-        <FormField
-          name="username"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="Instagram" />
-              </FormControl>
-              <FormDescription>Instagram profile if exist</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <div className="space-y-2">
+            <FormField
+              name="birthday"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder={t("registerForm.birthday")}
+                      type="date"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className="space-y-2">
+            <FormField
+              name="city"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <SelectCity {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
-            name="username"
+            name="gender"
             control={form.control}
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="space-y-1">
+                <FormLabel>{t("registerForm.gender")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Date of birth" type="date" />
+                  <RadioGroup
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    className="flex flex-row"
+                  >
+                    <div className="flex-1 flex items-center space-x-2">
+                      <Label
+                        className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        htmlFor="genderMale"
+                      >
+                        <RadioGroupItem value="Male" id="genderMale" />{" "}
+                        {t("registerForm.genderMale")}
+                      </Label>
+                    </div>
+                    <div className="flex-1 flex items-center space-x-2">
+                      <Label
+                        className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        htmlFor="genderFemale"
+                      >
+                        <RadioGroupItem value="Female" id="genderFemale" />{" "}
+                        {t("registerForm.genderFemale")}
+                      </Label>
+                    </div>
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <SelectCity />
-        </div>
-
-        <FormField
-          name="language_code"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="space-y-1">
-              <FormLabel>Gender</FormLabel>
-              <FormControl>
-                <RadioGroup defaultValue="option-one" className="flex flex-row">
-                  <div className="flex-1 flex items-center space-x-2">
-                    <Label
-                      className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
-                      htmlFor="option-one"
-                    >
-                      <RadioGroupItem value="option-one" id="option-one" /> Male
-                    </Label>
-                  </div>
-                  <div className="flex-1 flex items-center space-x-2">
-                    <Label
-                      className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
-                      htmlFor="option-two"
-                    >
-                      <RadioGroupItem value="option-two" id="option-two" />{" "}
-                      Female
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          {!isTMA() && (
+            <Button variant="default" className="w-full" type="submit">
+              {t("registerForm.submit")}
+            </Button>
           )}
-        />
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   );
 };

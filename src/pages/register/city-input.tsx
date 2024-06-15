@@ -16,9 +16,13 @@ import {
 } from "~/components/ui/popover";
 import { cities } from "./cities";
 
-export function SelectCity() {
+interface SelectCityProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export const SelectCity: React.FC<SelectCityProps> = ({ value, onChange }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -44,7 +48,7 @@ export function SelectCity() {
                   key={city.value}
                   value={city.label}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    onChange(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
@@ -62,4 +66,4 @@ export function SelectCity() {
       </PopoverContent>
     </Popover>
   );
-}
+};

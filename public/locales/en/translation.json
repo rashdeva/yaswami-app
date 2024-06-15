@@ -1,0 +1,15 @@
+{
+  "registerForm": {
+    "title": "Create Profile",
+    "name": "Name",
+    "about": "About you",
+    "aboutDescription": "About you",
+    "instagram": "Instagram account",
+    "instagramDescription": "Example @yaswami or https://instagram.com/yaswami",
+    "birthday": "Date of birth",
+    "gender": "Gender",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "submit": "Register"
+  }
+}
