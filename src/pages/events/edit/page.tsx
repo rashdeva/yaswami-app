@@ -11,10 +11,9 @@ import { EventForm2 } from "~/components/event-form2";
 import { useBack } from "~/hooks/useBack";
 
 export default function EventPage() {
-  useBack('/');
-  
+  useBack("/");
+
   const { eventId } = useParams();
-  
 
   const { data } = useQuery({
     queryKey: ["event"],

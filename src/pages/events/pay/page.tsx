@@ -1,6 +1,3 @@
 export default function EventPayPage() {
-  
-  return (
-    <div>Pay Page</div>
-  );
+  return <div>Pay Page</div>;
 }

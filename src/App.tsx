@@ -1,7 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { useReroute } from "./hooks/useReroute";
-import { bindMiniAppCSSVars, bindThemeParamsCSSVars, bindViewportCSSVars, useMiniApp, useThemeParams, useViewport } from "@tma.js/sdk-react";
+import {
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  bindViewportCSSVars,
+  useMiniApp,
+  useThemeParams,
+  useViewport,
+} from "@tma.js/sdk-react";
 import { useEffect } from "react";
 import { RegisterPage } from "./pages/register/page";
 
@@ -32,7 +39,7 @@ function App() {
   }, [viewport]);
 
   useEffect(() => {
-    document.documentElement.classList.add('twa');
+    document.documentElement.classList.add("twa");
     miniApp.ready();
     miniApp.requestWriteAccess();
   }, []);

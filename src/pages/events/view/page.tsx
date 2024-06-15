@@ -17,8 +17,8 @@ import { Calendar, MapPin } from "lucide-react";
 import { useBack } from "~/hooks/useBack";
 
 export default function EventViewPage() {
-  useBack('/');
-  
+  useBack("/");
+
   const { eventId } = useParams();
   const userData = useUserStore((state) => state.user);
   const queryClient = useQueryClient();

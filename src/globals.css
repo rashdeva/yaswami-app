@@ -71,10 +71,7 @@
  
     --card: var(--tg-theme-section-bg-color);
     --card-foreground: var(--tg-theme-text-color);
- 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
- 
+  
     --primary: var(--tg-theme-button-color);
     --primary-foreground: var(--tg-theme-button-text-color);
  
@@ -85,10 +82,10 @@
     --muted-foreground: var(--tg-theme-hint-color);
  
     --accent: var(--tg-theme-accent-text-color);
-    --accent-foreground: 0 0% 98%;
+    --accent-foreground: hsl(0 0% 98%);
  
     --destructive: var(--tg-theme-destructive-text-color);
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: hsl(0 0% 98%);
   }
 }
  

@@ -15,7 +15,13 @@ function generateTelegramShareUrl(eventId?: string, text: string = "") {
   return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswamibot/join?startapp=event-${eventId}`;
 }
 
-export const Participants = ({ eventId, className }: { eventId: number, className?: string }) => {
+export const Participants = ({
+  eventId,
+  className,
+}: {
+  eventId: number;
+  className?: string;
+}) => {
   const { data: participants } = useQuery({
     queryKey: ["participants"],
     queryFn: () => getParticipantsByEventId(eventId),
@@ -30,12 +36,23 @@ export const Participants = ({ eventId, className }: { eventId: number, classNam
   return (
     participants &&
     participants.length > 0 && (
-      <Card className={cn('p-3 shadow-lg border-none inline-flex rounded-3xl justify-center gap-2', className)}>
+      <Card
+        className={cn(
+          "p-3 shadow-lg border-none inline-flex rounded-3xl justify-center gap-2",
+          className
+        )}
+      >
         <div className="flex -space-x-4">
           {participants.map((participant) => {
             const user = participant.user as unknown as UserData;
 
-            return <UserCard disableName key={user.telegram_id} userId={user.telegram_id!} />;
+            return (
+              <UserCard
+                disableName
+                key={user.telegram_id}
+                userId={user.telegram_id!}
+              />
+            );
           })}
         </div>
         <Button variant="outline" asChild className="rounded-full gap-2 ">

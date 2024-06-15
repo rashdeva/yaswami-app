@@ -30,7 +30,7 @@ export default function EventsPage() {
       navigate("/events/create");
     };
 
-    mb.setBgColor('#').setText("Create Event").show().on("click", handleClick);
+    mb.setBgColor("#").setText("Create Event").show().on("click", handleClick);
 
     return () => {
       mb.hide().off("click", handleClick);

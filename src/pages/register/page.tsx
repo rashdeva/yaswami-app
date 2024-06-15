@@ -17,27 +17,24 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { isTMA } from "@tma.js/sdk";
-import { useMain } from "~/hooks/useMain";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "~/lib/supabase";
 import { z } from "zod";
+import { useMainButton } from "@tma.js/sdk-react";
 
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
-
-  useMain({ text: t("registerForm.submit"), onClick: handleSubmit });
+  const mb = useMainButton();
 
   const form = useForm<z.infer<typeof preRegistrationSchema>>({
     mode: "onSubmit",
     resolver: zodResolver(preRegistrationSchema),
   });
 
-  async function handleSubmit(values: typeof preRegistrationSchema) {
-    const { data, error } = await supabase
-      .from("pre_registration")
-      .insert([values]);
+  async function handleSubmit(values: any) {
+    const { error } = await supabase.from("pre_registration").insert([values]);
 
     if (error) {
       console.error("Error inserting data:", error);
@@ -45,6 +42,17 @@ export const RegisterPage: React.FC = () => {
       setSubmissionSuccess(true);
     }
   }
+
+  useEffect(() => {
+    mb.setBgColor("#")
+      .setText("Зарегистрироваться")
+      .show()
+      .on("click", () => form.handleSubmit(handleSubmit)());
+
+    return () => {
+      mb.hide().off("click", () => form.handleSubmit(handleSubmit)());
+    };
+  }, [mb, form]);
 
   if (submissionSuccess) {
     return (

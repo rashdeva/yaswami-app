@@ -21,7 +21,10 @@ export default function MainPage() {
       navigate("/register");
     };
 
-    mb.setBgColor("#").setText("Пре-регистрация").show().on("click", handleClick);
+    mb.setBgColor("#")
+      .setText("Пре-регистрация")
+      .show()
+      .on("click", handleClick);
 
     return () => {
       mb.hide().off("click", handleClick);
