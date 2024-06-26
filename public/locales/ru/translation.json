@@ -3,15 +3,30 @@
     "title": "Создать профиль",
     "name": "Имя",
     "about": "О вас",
-    "aboutDescription": "О вас",
-    "instagram": "Аккаунт Instagram",
-    "instagramDescription": "https://instagram.com/yaswami",
+    "aboutDescription": "Опишите свой опыт, что вы практикуте и как можете быть полезны",
+    "city": "Ваш город",
+    "cityDescription": "Поможет найти в поиске",
     "birthday": "Дата рождения",
+    "eventType": "Направление",
+    "eventTypeDescription": "Выберите вашу специализацию",
     "gender": "Пол",
     "genderMale": "Мужчина",
     "genderFemale": "Женщина",
     "submit": "Зарегистрироваться"
   },
+  
+  "registerSuccess": {
+    "title": "Registration Successful!",
+    "description": "Thank you for registering.",
+    "button": "Continue"
+  },
+
+  "registerFailed": {
+    "title": "Registration failed",
+    "description": "Something goes wrong",
+    "button": "Contact @rashdeva"
+  },
+
   "mainPage": {
     "welcome": "Ивенты, практики и ретриты от мастеров",
     "description": "Добро пожаловать в пространство духовного развития! Мы поможем мастерам создавать и управлять вашими событиями. Сервис сейчас находится в разработке, пройдите пре-регистрацию, чтобы быть в числе первых, кто узнает о новостях, и присоединяйтесь к нашей группе.",

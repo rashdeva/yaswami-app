@@ -1,16 +1,18 @@
 import LogoPng from "~/assets/sun.svg";
 import { useEffect } from "react";
-import { isTMA } from "@tma.js/sdk";
 import { useBackButton, useMainButton } from "@tma.js/sdk-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "~/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useUserStore } from "~/db/userStore";
+import { getTeacher } from "~/db/api";
 
 export default function MainPage() {
   const mb = useMainButton();
   const bb = useBackButton();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     if (bb) {
@@ -34,20 +36,21 @@ export default function MainPage() {
     };
   }, [mb, navigate, t]);
 
-  return (
-    <div className="h-dvh flex flex-col justify-center py-4">
-      <div className="text-center flex flex-col items-center gap-4">
-        <img src={LogoPng} className="max-w-40 animate-spin-slow" alt="" />
-        <h1 className="text-3xl font-bold">YASWAMI</h1>
-        <h2 className="text-xl font-bold">{t("mainPage.welcome")}</h2>
-        <p>{t("mainPage.description")}</p>
+  useEffect(() => {
+    if (user.id) {
+      getTeacher(user.id).then(({ data }) => {
+        if (data && data.length > 0) {
+          navigate("/events");
+        } else {
+          navigate("/onboarding");
+        }
+      });
+    }
+  }, [user.id]);
 
-        {!isTMA() && (
-          <Button asChild variant="default">
-            <Link to={"/register"}>{t("mainPage.preRegistrationButton")}</Link>
-          </Button>
-        )}
-      </div>
+  return (
+    <div className="h-dvh flex flex-col justify-center items-center py-4">
+      <img src={LogoPng} className="max-w-40 animate-spin-slow" alt="" />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import LogoPng from "~/assets/sun.svg";
 import { useEffect } from "react";
-import { isTMA } from "@tma.js/sdk";
 import { useBackButton, useMainButton } from "@tma.js/sdk-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "~/components/ui/button";
@@ -8,6 +7,7 @@ import { Placeholder } from "@telegram-apps/telegram-ui";
 import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "~/db/api";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { config } from "~/config";
 
 export default function EventsPage() {
   const mb = useMainButton();
@@ -69,7 +69,7 @@ export default function EventsPage() {
         </div>
       )}
 
-      {!isTMA() && (
+      {config.isLocalDev && (
         <Button asChild variant="default">
           <Link to={"/events/create"}>Create Event</Link>
         </Button>

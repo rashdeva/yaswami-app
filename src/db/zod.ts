@@ -1,40 +1,36 @@
-import * as z from "zod";
+
+import { z, ZodTypeAny } from 'zod';
+
+const nullableToUndefined = <T extends ZodTypeAny>(schema: T) => {
+  return schema.nullable().transform((value) => value === null ? undefined : value);
+};
 
 export const userSchema = z.object({
-  created_at: z.string(),
-  first_name: z.string().nullable(),
-  id: z.number(),
-  language_code: z.string().nullable(),
-  last_name: z.string().nullable(),
-  photo: z.string().nullable(),
-  telegram_id: z.number().nullable(),
-  username: z.string().nullable(),
+  created_at: z.string().optional(),
+  first_name: nullableToUndefined(z.string().nullable()),
+  id: z.number().optional(),
+  language_code: nullableToUndefined(z.string().nullable()),
+  last_name: nullableToUndefined(z.string().nullable()),
+  photo: nullableToUndefined(z.string().nullable()),
+  telegram_id: nullableToUndefined(z.number().nullable()),
+  username: nullableToUndefined(z.string().nullable()),
 });
 
 export const eventSchema = z.object({
   id: z.number(),
-  comment: z.string().nullable(),
-  description: z.string().nullable(),
-  end_date: z.string().nullable(),
-  end_time: z.string().nullable(),
-  event_type: z.number().nullable(),
-  location: z.string().nullable(),
-  max_participants: z.number().nullable(),
-  owner_id: z.number().nullable(),
-  price: z
-    .preprocess((val) => Number(val), z.number())
-    .transform((value) => {
-      const number = parseInt(value as unknown as string, 10);
-      if (isNaN(number)) {
-        throw new Error("Event type must be a number");
-      }
-      return number;
-    })
-    .nullable(),
-  start_date: z.string().nullable(),
-  start_time: z.string().nullable(),
-  thumbnail_url: z.string().nullable(),
-  title: z.string().nullable(),
+  comment: z.string().optional(),
+  description: z.string(),
+  end_date: z.string(),
+  end_time: z.string(),
+  event_type: z.string().optional(),
+  location: z.string(),
+  max_participants: z.preprocess((val) => Number(val), z.number()).optional(),
+  owner_id: z.number(),
+  price: z.preprocess((val) => Number(val), z.number()).optional(),
+  start_date: z.string(),
+  start_time: z.string(),
+  thumbnail_url: z.string(),
+  title: z.string(),
 });
 
 export const createEventSchema = eventSchema.pick({
@@ -54,9 +50,9 @@ export const createEventSchema = eventSchema.pick({
 export const preRegistrationSchema = z.object({
   name: z.string().min(1, "Name is required"),
   about: z.string().min(1, "About is required").optional(),
-  instagram: z.string().url("Invalid URL format").optional(),
-  birthday: z.string().min(1, "Date of birth is required"),
+  birthday: z.string().optional(),
   city: z.string().min(1, "City is required"),
+  event_type: z.string(),
   gender: z.enum(["Male", "Female"]),
   user_id: z.number().optional(),
 });

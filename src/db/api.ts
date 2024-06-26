@@ -1,6 +1,7 @@
 import { Tables } from "~/database.types";
 import { supabase } from "../lib/supabase";
-import { UserData } from "./userStore";
+import { userSchema } from "./zod";
+import { z } from "zod";
 
 export async function updateEvent({
   id,
@@ -58,7 +59,25 @@ export async function createEvent({ event_type, ...data }: Tables<"events">) {
   return { createdData, error };
 }
 
-export async function createUser({ ...data }: UserData) {
+export async function registerTeacher(values: Tables<"teachers">) {
+  const { data, error } = await supabase.from("teachers").insert([values]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function getTeacher(userId: number) {
+  return await supabase
+    .from("teachers")
+    .select("*")
+    .eq("user_id", userId)
+    .limit(1);
+}
+
+export async function createUser({ ...data }: z.infer<typeof userSchema>) {
   const { data: createdData, error } = await supabase
     .from("users")
     .insert([data]);
@@ -72,6 +91,12 @@ export async function getEventById(eventId: string) {
     .eq("id", Number(eventId))
     .limit(1);
   if (error) throw new Error("Failed to fetch event data");
+  return data;
+}
+
+export async function getEventTypes() {
+  const { data, error } = await supabase.from("event_types").select("*");
+  if (error) throw new Error("Failed to fetch event types data");
   return data;
 }
 

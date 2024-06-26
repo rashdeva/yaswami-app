@@ -125,12 +125,13 @@ export type Database = {
           },
         ]
       }
-      pre_registration: {
+      teachers: {
         Row: {
           about: string | null
           birthday: string | null
           city: string | null
           created_at: string
+          event_type: number | null
           gender: string | null
           id: number
           instagram: string | null
@@ -142,6 +143,7 @@ export type Database = {
           birthday?: string | null
           city?: string | null
           created_at?: string
+          event_type?: number | null
           gender?: string | null
           id?: number
           instagram?: string | null
@@ -153,6 +155,7 @@ export type Database = {
           birthday?: string | null
           city?: string | null
           created_at?: string
+          event_type?: number | null
           gender?: string | null
           id?: number
           instagram?: string | null
@@ -161,7 +164,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "pre_registration_user_id_fkey"
+            foreignKeyName: "teachers_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

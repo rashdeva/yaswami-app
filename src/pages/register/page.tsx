@@ -16,53 +16,74 @@ import { preRegistrationSchema } from "~/db/zod";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import { isTMA } from "@tma.js/sdk";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { supabase } from "~/lib/supabase";
+import { useEffect } from "react";
 import { z } from "zod";
 import { useMainButton } from "@tma.js/sdk-react";
+import { config } from "~/config";
+import { useNavigate } from "react-router-dom";
+import { EventTypeSelect } from "~/components/event-type-select/event-type-select";
+import { useUserStore } from "~/db/userStore";
+import { registerTeacher } from "~/db/api";
+import { toast } from "~/components/ui/use-toast";
 
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const mb = useMainButton();
+  const navigate = useNavigate();
+  const [userName, user] = useUserStore((state) => [
+    state.getUserName(),
+    state.user,
+  ]);
 
   const form = useForm<z.infer<typeof preRegistrationSchema>>({
     mode: "onSubmit",
     resolver: zodResolver(preRegistrationSchema),
+    defaultValues: {
+      name: userName,
+    },
   });
 
-  async function handleSubmit(values: any) {
-    const { error } = await supabase.from("pre_registration").insert([values]);
+  useEffect(() => {
+    form.resetField("name", {
+      defaultValue: userName,
+    });
+  }, [userName]);
 
-    if (error) {
-      console.error("Error inserting data:", error);
-    } else {
-      setSubmissionSuccess(true);
+  async function handleSubmit(values: any) {
+    try {
+      await registerTeacher(values);
+      navigate("/register/success");
+    } catch (error) {
+      toast({
+        title: (error as Error).message,
+        variant: "destructive",
+      });
     }
   }
 
   useEffect(() => {
+    form.register("user_id");
+  }, [form]);
+
+  // Update the hidden input value when user.id changes
+  useEffect(() => {
+    form.setValue("user_id", user.id);
+  }, [user.id, form]);
+
+  useEffect(() => {
     mb.setBgColor("#")
       .enable()
-      .setText("Зарегистрироваться")
+      .setText(t("registerForm.submit"))
       .show()
       .on("click", () => form.handleSubmit(handleSubmit)());
 
     return () => {
-      mb.hide().disable().off("click", () => form.handleSubmit(handleSubmit)());
+      mb.hide()
+        .disable()
+        .off("click", () => form.handleSubmit(handleSubmit)());
     };
-  }, [mb, form]);
-
-  if (submissionSuccess) {
-    return (
-      <div className="flex flex-col items-center">
-        <h1 className="text-lg font-bold mb-2">Registration Successful!</h1>
-        <p>Thank you for registering. We will get back to you soon.</p>
-      </div>
-    );
-  }
+  }, [mb, form, t]);
 
   return (
     <div className="flex flex-col items-center pt-4 pb-10">
@@ -73,6 +94,7 @@ export const RegisterPage: React.FC = () => {
           className="space-y-6 w-full"
         >
           <div className="space-y-2">
+            <input type="hidden" {...form.register("user_id")} />
             <FormField
               name="name"
               control={form.control}
@@ -106,15 +128,21 @@ export const RegisterPage: React.FC = () => {
           </div>
 
           <FormField
-            name="instagram"
+            name="event_type"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder={t("registerForm.instagram")} />
+                  <EventTypeSelect
+                    label={t("registerForm.eventType")}
+                    {...field}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    value={field.value}
+                  />
                 </FormControl>
                 <FormDescription>
-                  {t("registerForm.instagramDescription")}
+                  {t("registerForm.eventTypeDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -123,30 +151,16 @@ export const RegisterPage: React.FC = () => {
 
           <div className="space-y-2">
             <FormField
-              name="birthday"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder={t("registerForm.birthday")}
-                      type="date"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
               name="city"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <SelectCity {...field} />
+                    <SelectCity {...field} label={t("registerForm.city")} />
                   </FormControl>
+                  <FormDescription>
+                    {t("registerForm.cityDescription")}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -189,7 +203,7 @@ export const RegisterPage: React.FC = () => {
               </FormItem>
             )}
           />
-          {!isTMA() && (
+          {config.isLocalDev && (
             <Button variant="default" className="w-full" type="submit">
               {t("registerForm.submit")}
             </Button>

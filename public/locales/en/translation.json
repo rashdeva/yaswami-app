@@ -3,18 +3,48 @@
     "title": "Create Profile",
     "name": "Name",
     "about": "About you",
-    "aboutDescription": "About you",
-    "instagram": "Instagram account",
-    "instagramDescription": "https://instagram.com/yaswami",
+    "aboutDescription": "Describe your experience, what do you practice and how you can help your students.",
     "birthday": "Date of birth",
     "gender": "Gender",
     "genderMale": "Male",
     "genderFemale": "Female",
-    "submit": "Register"
+    "submit": "Register",
+    "city": "Your city",
+    "cityDescription": "It helps people to find you",
+    "eventType": "Direction",
+    "eventTypeDescription": "What do you teach?"
   },
+  "registerSuccess": {
+    "title": "Registration Successful!",
+    "description": "Thank you for registering.",
+    "button": "Continue"
+  },
+
+  "registerFailed": {
+    "title": "Registration failed",
+    "description": "Something goes wrong",
+    "button": "Contact @rashdeva"
+  },
+
   "mainPage": {
     "welcome": "Event marketplace from masters",
     "description": "Welcome to the space of spiritual development! We help masters create and manage your events. The service is currently under development, go through pre-registration to be among the first to know about the news and join our group.",
     "preRegistrationButton": "Pre-registration"
+  },
+
+  "eventForm": {
+    "title": "Event Title",
+    "description": "Event Description",
+    "startDate": "Start Date",
+    "startTime": "Start Time",
+    "endDate": "End Date",
+    "endTime": "End Time",
+    "eventType": "Event Type",
+    "maxParticipants": "Max Participants",
+    "price": "Price",
+    "thumbnail": "Thumbnail URL",
+    "comment": "Comment",
+    "submitButton": "Continue",
+    "eventTypePlaceholder": "Select Event Type"
   }
 }

@@ -19,11 +19,12 @@ import enCities from "./cities_ru.json";
 import ruCities from "./cities_en.json";
 
 interface SelectCityProps {
+  label?: string;
   value: string;
   onChange: (value: string) => void;
 }
 
-export const SelectCity: React.FC<SelectCityProps> = ({ value, onChange }) => {
+export const SelectCity: React.FC<SelectCityProps> = ({ value, label, onChange }) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -38,7 +39,7 @@ export const SelectCity: React.FC<SelectCityProps> = ({ value, onChange }) => {
           aria-expanded={open}
           className="justify-between w-full"
         >
-          {value || t("Your city")}
+          {value || label}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

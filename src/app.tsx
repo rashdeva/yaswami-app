@@ -16,6 +16,9 @@ import EventsPage from "./pages/events/page";
 import EventEditPage from "./pages/events/edit/page";
 import EventViewPage from "./pages/events/view/page";
 import EventPayPage from "./pages/events/pay/page";
+import { RegisterSuccessPage } from "./pages/register/success/page";
+import OnboardingPage from "./pages/onboarding/page";
+import { Toaster } from "~/components/ui/toaster";
 import MainPage from "./pages/page";
 
 function App() {
@@ -48,13 +51,16 @@ function App() {
     <div className="container max-w-lg">
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register/success" element={<RegisterSuccessPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/create" element={<EventEditPage />} />
         <Route path="/events/:eventId" element={<EventEditPage />} />
         <Route path="/events/:eventId/view" element={<EventViewPage />} />
         <Route path="/events/:eventId/pay" element={<EventPayPage />} />
       </Routes>
+      <Toaster />
     </div>
   );
 }
