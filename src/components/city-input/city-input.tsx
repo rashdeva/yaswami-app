@@ -1,5 +1,5 @@
 import { ChevronsUpDown, Check } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "~/components/ui/button";
 import {
@@ -24,11 +24,20 @@ interface SelectCityProps {
   onChange: (value: string) => void;
 }
 
-export const SelectCity: React.FC<SelectCityProps> = ({ value, label, onChange }) => {
+export const SelectCity: React.FC<SelectCityProps> = ({
+  value,
+  label,
+  onChange,
+}) => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [cities, setCities] = useState(
+    i18n.language === "ru" ? ruCities.cities : enCities.cities
+  );
 
-  const cities = i18n.language === "ru" ? ruCities.cities : enCities.cities;
+  useEffect(() => {
+    setCities(i18n.language === "ru" ? ruCities.cities : enCities.cities);
+  }, [i18n.language]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
