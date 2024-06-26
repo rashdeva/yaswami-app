@@ -15,8 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import enCities from "./cities_ru.json";
-import ruCities from "./cities_en.json";
+import ruCities from "./cities_ru.json";
+import enCities from "./cities_en.json";
 
 interface SelectCityProps {
   label?: string;
