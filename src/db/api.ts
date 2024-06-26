@@ -2,6 +2,8 @@ import { Tables } from "~/database.types";
 import { supabase } from "../lib/supabase";
 import { userSchema } from "./zod";
 import { z } from "zod";
+import { parseParticipant } from "./parsers";
+import { ParticipantDto } from "./models";
 
 export async function updateEvent({
   id,
@@ -148,9 +150,7 @@ export async function getParticipantsByEventId(eventId: number) {
   try {
     const { data, error } = await supabase
       .from("event_participants")
-      .select(
-        `*, user:user_id(id, username, first_name, telegram_id, last_name)`
-      )
+      .select(`*`)
       .eq("event_id", eventId);
 
     if (error) {
@@ -159,7 +159,8 @@ export async function getParticipantsByEventId(eventId: number) {
     }
 
     // Return true if there is at least one participant matching the criteria
-    return data;
+
+    return data.map((item) => parseParticipant(item as ParticipantDto));
   } catch (error) {
     // Optionally handle or log the error differently here
     throw error;

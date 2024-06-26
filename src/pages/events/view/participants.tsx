@@ -5,7 +5,6 @@ import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { UserCard } from "~/components/user-card";
 import { getParticipantsByEventId } from "~/db/api";
-import { UserData } from "~/db/userStore";
 import { cn } from "~/lib/utils";
 
 function generateTelegramShareUrl(eventId?: string, text: string = "") {
@@ -44,13 +43,11 @@ export const Participants = ({
       >
         <div className="flex -space-x-4">
           {participants.map((participant) => {
-            const user = participant.user as unknown as UserData;
-
             return (
               <UserCard
                 disableName
-                key={user.telegram_id}
-                userId={user.telegram_id!}
+                key={participant.userId}
+                userId={participant.userId}
               />
             );
           })}
