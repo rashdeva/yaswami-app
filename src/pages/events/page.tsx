@@ -1,19 +1,18 @@
-import { useEffect } from "react";
-import { useMainButton } from "@tma.js/sdk-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "~/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "~/db/api";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { config } from "~/config";
 import { useUserStore } from "~/db/userStore";
 import { useTranslation } from "react-i18next";
+import { PlusCircle } from "lucide-react";
+import { useBackButton } from "@tma.js/sdk-react";
+import { useEffect } from "react";
 
 export default function EventsPage() {
-  const mb = useMainButton();
-  const navigate = useNavigate();
   const userId = useUserStore((state) => state.user.id);
   const { t } = useTranslation();
+  const bb = useBackButton();
 
   const { data } = useQuery({
     queryKey: ["event"],
@@ -22,24 +21,22 @@ export default function EventsPage() {
   });
 
   useEffect(() => {
-    const handleClick = () => {
-      navigate("/events/create");
-    };
-
-    mb.setBgColor("#")
-      .setText(t("events.createEvent"))
-      .show()
-      .enable()
-      .on("click", handleClick);
-
-    return () => {
-      mb.hide().off("click", handleClick);
-    };
-  }, [mb]);
+    if(bb) {
+      bb.hide();
+    }
+  }, [bb])
 
   return (
-    <div className="h-dvh py-4">
-      <h1 className="text-xl font-bold mb-1">{t("events.h1")}</h1>
+    <main className="py-4 space-y-4">
+      <header className="flex justify-between items-center">
+        <h1 className="text-xl font-bold">{t("events.h1")}</h1>
+        <Button asChild variant="default" className="gap-2">
+          <Link to={"/events/create"}>
+            <PlusCircle className="h-4 w-4" />
+            {t("events.newEvent")}
+          </Link>
+        </Button>
+      </header>
       {data?.length === 0 && <p>{t("events.noEvents")}</p>}
 
       {data && data?.length > 0 && (
@@ -48,7 +45,7 @@ export default function EventsPage() {
             return (
               <Card key={event.id} className="rounded-lg">
                 <Link to={`/events/${event.id}/view`}>
-                  <CardHeader>{event.title}</CardHeader>
+                  <CardHeader className="text-lg font-bold">{event.title}</CardHeader>
                   <CardContent>
                     <div>
                       {event.start_date} {event.start_time}
@@ -61,12 +58,6 @@ export default function EventsPage() {
           })}
         </div>
       )}
-
-      {config.isLocalDev && (
-        <Button asChild variant="default" className="mt-4">
-          <Link to={"/events/create"}>{t("events.createEvent")}</Link>
-        </Button>
-      )}
-    </div>
+    </main>
   );
 }

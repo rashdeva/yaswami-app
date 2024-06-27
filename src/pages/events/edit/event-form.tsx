@@ -18,10 +18,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "~/components/ui/use-toast";
 import { EventTypeSelect } from "~/components/event-type-select/event-type-select";
 import { useEffect } from "react";
-import { useMainButton } from "@tma.js/sdk-react";
-import { config } from "~/config";
 import { eventSchema } from "~/db/zod";
-
+import { useUserStore } from "~/db/userStore";
 
 export const createEventSchema = eventSchema.pick({
   title: true,
@@ -33,20 +31,18 @@ export const createEventSchema = eventSchema.pick({
   event_type: true,
   max_participants: true,
   thumbnail_url: true,
+  owner_id: true,
 });
-
 
 export type EventFormProps = {
   form: UseFormReturn<z.infer<typeof createEventSchema>>;
   onSubmit: (data: z.infer<typeof createEventSchema>) => void;
 };
 
-export function EventForm({ eventId }: { eventId?: string }) {
+export function EventForm(_: { eventId?: string }) {
   const { t } = useTranslation();
-  const mb = useMainButton();
   const navigate = useNavigate();
-
-  console.log(eventId);
+  const userId = useUserStore((state) => state.user.id);
 
   const form = useForm<z.infer<typeof createEventSchema>>({
     mode: "onSubmit",
@@ -56,7 +52,7 @@ export function EventForm({ eventId }: { eventId?: string }) {
     // },
   });
 
-  async function handleSubmit(values: any) {
+  const handleSubmit = async (values: any) => {
     try {
       await createEvent(values);
       toast({
@@ -69,29 +65,23 @@ export function EventForm({ eventId }: { eventId?: string }) {
         variant: "destructive",
       });
     }
-  }
+  };
 
   useEffect(() => {
-    mb.setBgColor("#")
-      .enable()
-      .setText(t("registerForm.submit"))
-      .show()
-      .on("click", () => form.handleSubmit(handleSubmit)());
+    form.register("owner_id");
+  }, [form]);
 
-    return () => {
-      mb.hide()
-        .disable()
-        .off("click", () => form.handleSubmit(handleSubmit)());
-    };
-  }, [mb, form, t]);
+  useEffect(() => {
+    if (userId) {
+      form.setValue("owner_id", userId);
+    }
+  }, [userId, form]);
 
   return (
     <Form {...form}>
       <h1 className="text-xl font-bold mb-1">{t("eventForm.h1")}</h1>
-      <form
-        className="py-6 space-y-8"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
+      <form className="space-y-8" onSubmit={form.handleSubmit(handleSubmit)}>
+        <input type="hidden" {...form.register("owner_id")} />
         <FormField
           control={form.control}
           name="title"
@@ -271,11 +261,9 @@ export function EventForm({ eventId }: { eventId?: string }) {
           />
         </div>
 
-        {config.isLocalDev && (
-          <Button type="submit" className="w-full" size="lg">
-            {t("eventForm.submit")}
-          </Button>
-        )}
+        <Button type="submit" className="w-full" size="lg">
+          {t("eventForm.submit")}
+        </Button>
       </form>
     </Form>
   );

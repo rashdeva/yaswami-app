@@ -18,8 +18,6 @@ import { Button } from "~/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { z } from "zod";
-import { useMainButton } from "@tma.js/sdk-react";
-import { config } from "~/config";
 import { useNavigate } from "react-router-dom";
 import { EventTypeSelect } from "~/components/event-type-select/event-type-select";
 import { useUserStore } from "~/db/userStore";
@@ -34,15 +32,13 @@ export const preRegistrationSchema = z.object({
   city: z.string().min(1, "registerForm"),
   specialty: z.string(),
   gender: z.enum(["male", "female"], {
-    message: 'registerForm'
+    message: "registerForm",
   }),
   user_id: z.number().optional(),
 });
 
-
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
-  const mb = useMainButton();
   const navigate = useNavigate();
 
   const [userName, user] = useUserStore((state) => [
@@ -84,20 +80,6 @@ export const RegisterPage: React.FC = () => {
   useEffect(() => {
     form.setValue("user_id", user.id);
   }, [user.id, form]);
-
-  useEffect(() => {
-    mb.setBgColor("#")
-      .enable()
-      .setText(t("registerForm.submit"))
-      .show()
-      .on("click", () => form.handleSubmit(handleSubmit)());
-
-    return () => {
-      mb.hide()
-        .disable()
-        .off("click", () => form.handleSubmit(handleSubmit)());
-    };
-  }, [mb, form, t]);
 
   return (
     <div className="flex flex-col items-center pt-4 pb-10">
@@ -195,7 +177,9 @@ export const RegisterPage: React.FC = () => {
                   >
                     <div className="flex-1 flex items-center space-x-2">
                       <Label
-                        className={cn('bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base')}
+                        className={cn(
+                          "bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        )}
                         htmlFor="genderMale"
                       >
                         <RadioGroupItem value="male" id="genderMale" />{" "}
@@ -204,7 +188,9 @@ export const RegisterPage: React.FC = () => {
                     </div>
                     <div className="flex-1 flex items-center space-x-2">
                       <Label
-                        className={cn('bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base')}
+                        className={cn(
+                          "bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        )}
                         htmlFor="genderFemale"
                       >
                         <RadioGroupItem value="female" id="genderFemale" />{" "}
@@ -217,11 +203,9 @@ export const RegisterPage: React.FC = () => {
               </FormItem>
             )}
           />
-          {config.isLocalDev && (
-            <Button variant="default" className="w-full" type="submit">
-              {t("registerForm.submit")}
-            </Button>
-          )}
+          <Button variant="default" className="w-full" type="submit">
+            {t("registerForm.submit")}
+          </Button>
         </form>
       </Form>
     </div>

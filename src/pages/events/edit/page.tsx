@@ -3,11 +3,11 @@ import { useBack } from "~/hooks/useBack";
 import { EventForm } from "./event-form";
 
 export default function EventPage() {
-  useBack("/");
+  useBack("/events");
   const { eventId } = useParams();
 
   return (
-    <div className="container py-8">
+    <div className="py-6">
       <EventForm eventId={eventId} />
     </div>
   );

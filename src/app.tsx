@@ -20,6 +20,7 @@ import { RegisterSuccessPage } from "./pages/register/success/page";
 import OnboardingPage from "./pages/onboarding/page";
 import { Toaster } from "~/components/ui/toaster";
 import MainPage from "./pages/page";
+import { Header } from "~/components/header.tsx";
 
 function App() {
   useAuth();
@@ -45,23 +46,27 @@ function App() {
     document.documentElement.classList.add("twa");
     miniApp.ready();
     miniApp.requestWriteAccess();
+    miniApp.setHeaderColor('#000000')
   }, []);
 
   return (
-    <div className="container max-w-lg">
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/register/success" element={<RegisterSuccessPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/events/create" element={<EventEditPage />} />
-        <Route path="/events/:eventId" element={<EventEditPage />} />
-        <Route path="/events/:eventId/view" element={<EventViewPage />} />
-        <Route path="/events/:eventId/pay" element={<EventPayPage />} />
-      </Routes>
-      <Toaster />
-    </div>
+    <>
+      <Header />
+      <div className="container max-w-lg">
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register/success" element={<RegisterSuccessPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/create" element={<EventEditPage />} />
+          <Route path="/events/:eventId" element={<EventEditPage />} />
+          <Route path="/events/:eventId/view" element={<EventViewPage />} />
+          <Route path="/events/:eventId/pay" element={<EventPayPage />} />
+        </Routes>
+        <Toaster />
+      </div>
+    </>
   );
 }
 

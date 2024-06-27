@@ -4,25 +4,22 @@ import {
   participateEvent,
   unparticipateEvent,
 } from "~/db/api";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "~/db/userStore";
-import { Button } from "~/components/ui/button";
 import { Participants } from "./participants";
-import { CardFooter } from "~/components/ui/card";
-import LogoPng from "~/assets/logo.png";
 import { useMainButton } from "@tma.js/sdk-react";
 import { useCallback, useEffect } from "react";
 import { Calendar, MapPin } from "lucide-react";
 import { useBack } from "~/hooks/useBack";
-import { config } from "~/config";
 
 export default function EventViewPage() {
-  useBack("/");
+  useBack("/events");
 
   const { eventId } = useParams();
   const userData = useUserStore((state) => state.user);
   const queryClient = useQueryClient();
+  const mb = useMainButton();
 
   const participateMutation = useMutation({
     mutationFn: participateEvent,
@@ -50,64 +47,53 @@ export default function EventViewPage() {
     enabled: !!eventId && !!userData?.id,
   });
 
-  const isPending =
-    participateMutation.isPending || unparticipateMutation.isPending;
-
-  const handleParticipate = useCallback(async () => {
+  const toggleParticipate = useCallback(() => {
     if (eventId && userData?.id) {
-      participateMutation.mutate({
-        event_id: Number(eventId),
-        user_id: userData.id,
-      });
+      if (isParticipated) {
+        unparticipateMutation.mutate({
+          event_id: Number(eventId),
+          user_id: userData.id,
+        });
+      } else {
+        participateMutation.mutate({
+          event_id: Number(eventId),
+          user_id: userData.id,
+        });
+      }
     }
-  }, [eventId, userData?.id, participateMutation, isPending]);
-
-  const handleUnparticipate = useCallback(() => {
-    if (eventId && userData?.id) {
-      unparticipateMutation.mutate({
-        event_id: Number(eventId),
-        user_id: userData.id,
-      });
-    }
-  }, [eventId, userData?.id, unparticipateMutation]);
-
-  const mainButton = useMainButton();
+  }, [eventId, userData?.id, unparticipateMutation, isParticipated]);
 
   useEffect(() => {
     if (participateMutation.isPending || unparticipateMutation.isPending) {
-      mainButton.showLoader();
-      mainButton.disable();
+      mb.showLoader().disable();
     } else {
-      mainButton.hideLoader();
-      mainButton.enable();
+      mb.hideLoader().enable();
     }
   }, [participateMutation.isPending, unparticipateMutation.isPending]);
 
   useEffect(() => {
-    if (isParticipated) {
-      mainButton.on("click", handleUnparticipate);
-    } else {
-      mainButton.on("click", handleParticipate);
-    }
-    mainButton.setText(isParticipated ? "Отменить участие" : "Принять участие");
-    mainButton.setBgColor(isParticipated ? "#DC2323" : "#");
+    mb.setText(isParticipated ? "Отменить участие" : "Принять участие")
+      .setBgColor(isParticipated ? "#DC2323" : "#")
+      .on("click", toggleParticipate);
 
     return () => {
-      mainButton.off("click", handleParticipate);
-      mainButton.off("click", handleUnparticipate);
+      mb.off("click", toggleParticipate);
     };
   }, [isParticipated]);
 
   useEffect(() => {
-    mainButton.enable();
-    mainButton.show();
+    mb.enable().show();
+
+    return () => {
+      mb.disable().hide();
+    };
   }, []);
 
   const event = eventData ? eventData[0] : undefined;
 
   return (
     event && (
-      <div>
+      <div className="py-4">
         <header className="flex flex-col items-center">
           {event.thumbnail_url && (
             <div className="rounded-3xl overflow-hidden">
@@ -117,7 +103,7 @@ export default function EventViewPage() {
           <Participants eventId={Number(eventId)} className="-mt-8" />
         </header>
         <div className="pb-8 space-y-2">
-          <div className="pt-6 px-4 space-y-4">
+          <div className="pt-4 space-y-4">
             <h1 className="text-3xl tracking-tighter mb-4">{event.title}</h1>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -146,19 +132,6 @@ export default function EventViewPage() {
             <p className="text-base" style={{ whiteSpace: "pre-wrap" }}>
               {event.description}
             </p>
-          </div>
-          <CardFooter className="justify-center"></CardFooter>
-          <div className="text-center pt-4">
-            <Button
-              asChild
-              className="h-full rounded-2xl inline-flex gap-2 text-sm"
-              variant="ghost"
-            >
-              <Link to={`https://t.me/${config.botName}`}>
-                <img src={LogoPng} width={20} height={20} alt="" />
-                Yaswami Bot
-              </Link>
-            </Button>
           </div>
         </div>
       </div>

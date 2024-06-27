@@ -58,7 +58,12 @@ export async function createEvent({ event_type, ...data }: Tables<"events">) {
       ...data,
     },
   ]);
-  return { createdData, error };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return createdData;
 }
 
 export async function registerTeacher(values: Tables<"teachers">) {
