@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useBackButton, useMainButton } from "@tma.js/sdk-react";
+import { useMainButton } from "@tma.js/sdk-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "~/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 
 export default function EventsPage() {
   const mb = useMainButton();
-  const bb = useBackButton();
   const navigate = useNavigate();
   const userId = useUserStore((state) => state.user.id);
   const { t } = useTranslation();
@@ -21,12 +20,6 @@ export default function EventsPage() {
     queryFn: () => getEvents(userId!),
     enabled: !!userId,
   });
-
-  useEffect(() => {
-    if (bb) {
-      bb.hide();
-    }
-  }, [bb]);
 
   useEffect(() => {
     const handleClick = () => {
