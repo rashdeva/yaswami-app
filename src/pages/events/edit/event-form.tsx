@@ -1,7 +1,6 @@
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
-import { createEventSchema } from "../../../db/zod";
 import {
   Form,
   FormField,
@@ -18,6 +17,24 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "~/components/ui/use-toast";
 import { EventTypeSelect } from "~/components/event-type-select/event-type-select";
+import { useEffect } from "react";
+import { useMainButton } from "@tma.js/sdk-react";
+import { config } from "~/config";
+import { eventSchema } from "~/db/zod";
+
+
+export const createEventSchema = eventSchema.pick({
+  title: true,
+  description: true,
+  price: true,
+  comment: true,
+  end_date: true,
+  start_date: true,
+  event_type: true,
+  max_participants: true,
+  thumbnail_url: true,
+});
+
 
 export type EventFormProps = {
   form: UseFormReturn<z.infer<typeof createEventSchema>>;
@@ -26,7 +43,10 @@ export type EventFormProps = {
 
 export function EventForm({ eventId }: { eventId?: string }) {
   const { t } = useTranslation();
+  const mb = useMainButton();
   const navigate = useNavigate();
+
+  console.log(eventId);
 
   const form = useForm<z.infer<typeof createEventSchema>>({
     mode: "onSubmit",
@@ -37,7 +57,6 @@ export function EventForm({ eventId }: { eventId?: string }) {
   });
 
   async function handleSubmit(values: any) {
-    console.log(eventId);
     try {
       await createEvent(values);
       toast({
@@ -52,9 +71,27 @@ export function EventForm({ eventId }: { eventId?: string }) {
     }
   }
 
+  useEffect(() => {
+    mb.setBgColor("#")
+      .enable()
+      .setText(t("registerForm.submit"))
+      .show()
+      .on("click", () => form.handleSubmit(handleSubmit)());
+
+    return () => {
+      mb.hide()
+        .disable()
+        .off("click", () => form.handleSubmit(handleSubmit)());
+    };
+  }, [mb, form, t]);
+
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(handleSubmit)}>
+      <h1 className="text-xl font-bold mb-1">{t("eventForm.h1")}</h1>
+      <form
+        className="py-6 space-y-8"
+        onSubmit={form.handleSubmit(handleSubmit)}
+      >
         <FormField
           control={form.control}
           name="title"
@@ -105,7 +142,7 @@ export function EventForm({ eventId }: { eventId?: string }) {
                 <FormControl>
                   <Input
                     id="start-date"
-                    type="date"
+                    type="datetime-local"
                     {...field}
                     className="w-full"
                   />
@@ -114,25 +151,6 @@ export function EventForm({ eventId }: { eventId?: string }) {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="start_time"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="start-time">
-                  {t("eventForm.startTime")}
-                </FormLabel>
-                <FormControl>
-                  <Input id="start-time" type="time" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="end_date"
@@ -142,23 +160,7 @@ export function EventForm({ eventId }: { eventId?: string }) {
                   {t("eventForm.endDate")}
                 </FormLabel>
                 <FormControl>
-                  <Input id="end-date" type="date" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="end_time"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="end-time">
-                  {t("eventForm.endTime")}
-                </FormLabel>
-                <FormControl>
-                  <Input id="end-time" type="time" {...field} />
+                  <Input id="end-date" type="datetime-local" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -177,7 +179,7 @@ export function EventForm({ eventId }: { eventId?: string }) {
                 </FormLabel>
                 <FormControl>
                   <EventTypeSelect
-                    label={t("registerForm.eventType")}
+                    label={t("eventForm.eventTypePlaceholder")}
                     {...field}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -233,13 +235,13 @@ export function EventForm({ eventId }: { eventId?: string }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="thumbnail">
-                  {t("eventForm.thumbnailUrl")}
+                  {t("eventForm.thumbnail")}
                 </FormLabel>
                 <FormControl>
                   <Input
                     id="thumbnail"
                     type="url"
-                    placeholder={t("eventForm.thumbnailUrlPlaceholder")}
+                    placeholder={t("eventForm.thumbnailPlaceholder")}
                     {...field}
                   />
                 </FormControl>
@@ -269,9 +271,11 @@ export function EventForm({ eventId }: { eventId?: string }) {
           />
         </div>
 
-        <Button type="submit" className="w-full" size="lg">
-          {t("eventForm.submit")}
-        </Button>
+        {config.isLocalDev && (
+          <Button type="submit" className="w-full" size="lg">
+            {t("eventForm.submit")}
+          </Button>
+        )}
       </form>
     </Form>
   );

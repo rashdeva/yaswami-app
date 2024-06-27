@@ -7,11 +7,12 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
-  useFormContext
+  useFormContext,
 } from "react-hook-form";
 
 import { cn } from "../../lib/utils";
 import { Label } from "./label";
+import { useTranslation } from "react-i18next";
 
 const Form = FormProvider;
 
@@ -93,7 +94,11 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-destructive", "text-xs font-normal pl-3 uppercase", className)}
+      className={cn(
+        error && "text-destructive",
+        "text-xs font-normal pl-3 uppercase",
+        className
+      )}
       htmlFor={formItemId}
       {...props}
     />
@@ -128,25 +133,32 @@ const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-  const { formDescriptionId } = useFormField();
+  const { formDescriptionId, error } = useFormField();
+
+  console.log(error);
 
   return (
-    <p
-      ref={ref}
-      id={formDescriptionId}
-      className={cn("text-sm text-muted-foreground pl-3", className)}
-      {...props}
-    />
+    !error && (
+      <p
+        ref={ref}
+        id={formDescriptionId}
+        className={cn("text-sm text-muted-foreground pl-3", className)}
+        {...props}
+      />
+    )
   );
 });
 FormDescription.displayName = "FormDescription";
 
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
-  const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    formName?: string;
+  }
+>(({ className, children, formName, ...props }, ref) => {
+  const { error, formMessageId, name } = useFormField();
+  const { t } = useTranslation();
+  const body = (error && formName) ? t(`${formName}.errors.${name}`) : error ? t(String(error.message)) : children;
 
   if (!body) {
     return null;
@@ -156,7 +168,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
+      className={cn("text-sm font-medium text-destructive pl-3", className)}
       {...props}
     >
       {body}

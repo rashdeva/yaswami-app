@@ -167,8 +167,8 @@ export async function getParticipantsByEventId(eventId: number) {
   }
 }
 
-export async function getEvents() {
-  const { data, error } = await supabase.from("events").select("*");
+export async function getEvents(userId: number) {
+  const { data, error } = await supabase.from("events").select("*").eq("owner_id", userId);
   if (error) throw new Error("Failed to fetch event data");
   return data;
 }

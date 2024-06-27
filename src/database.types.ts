@@ -131,7 +131,7 @@ export type Database = {
           birthday: string | null
           city: string | null
           created_at: string
-          event_type: number | null
+          specialty: number | null
           gender: string | null
           id: number
           instagram: string | null
@@ -143,7 +143,7 @@ export type Database = {
           birthday?: string | null
           city?: string | null
           created_at?: string
-          event_type?: number | null
+          specialty?: number | null
           gender?: string | null
           id?: number
           instagram?: string | null
@@ -155,7 +155,7 @@ export type Database = {
           birthday?: string | null
           city?: string | null
           created_at?: string
-          event_type?: number | null
+          specialty?: number | null
           gender?: string | null
           id?: number
           instagram?: string | null

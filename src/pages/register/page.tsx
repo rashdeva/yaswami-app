@@ -12,7 +12,6 @@ import {
 } from "~/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { preRegistrationSchema } from "~/db/zod";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -26,11 +25,26 @@ import { EventTypeSelect } from "~/components/event-type-select/event-type-selec
 import { useUserStore } from "~/db/userStore";
 import { registerTeacher } from "~/db/api";
 import { toast } from "~/components/ui/use-toast";
+import { cn } from "~/lib/utils";
+
+export const preRegistrationSchema = z.object({
+  name: z.string().min(1, "registerForm"),
+  about: z.string().min(1, "registerForm").optional(),
+  birthday: z.string().optional(),
+  city: z.string().min(1, "registerForm"),
+  specialty: z.string(),
+  gender: z.enum(["male", "female"], {
+    message: 'registerForm'
+  }),
+  user_id: z.number().optional(),
+});
+
 
 export const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
   const mb = useMainButton();
   const navigate = useNavigate();
+
   const [userName, user] = useUserStore((state) => [
     state.getUserName(),
     state.user,
@@ -103,7 +117,7 @@ export const RegisterPage: React.FC = () => {
                   <FormControl>
                     <Input {...field} placeholder={t("registerForm.name")} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage formName="registerForm" />
                 </FormItem>
               )}
             />
@@ -121,20 +135,20 @@ export const RegisterPage: React.FC = () => {
                   <FormDescription>
                     {t("registerForm.aboutDescription")}
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage formName="registerForm" />
                 </FormItem>
               )}
             />
           </div>
 
           <FormField
-            name="event_type"
+            name="specialty"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <EventTypeSelect
-                    label={t("registerForm.eventType")}
+                    label={t("registerForm.specialty")}
                     {...field}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -142,9 +156,9 @@ export const RegisterPage: React.FC = () => {
                   />
                 </FormControl>
                 <FormDescription>
-                  {t("registerForm.eventTypeDescription")}
+                  {t("registerForm.specialtyDescription")}
                 </FormDescription>
-                <FormMessage />
+                <FormMessage formName="registerForm" />
               </FormItem>
             )}
           />
@@ -161,7 +175,7 @@ export const RegisterPage: React.FC = () => {
                   <FormDescription>
                     {t("registerForm.cityDescription")}
                   </FormDescription>
-                  <FormMessage />
+                  <FormMessage formName="registerForm" />
                 </FormItem>
               )}
             />
@@ -181,25 +195,25 @@ export const RegisterPage: React.FC = () => {
                   >
                     <div className="flex-1 flex items-center space-x-2">
                       <Label
-                        className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        className={cn('bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base')}
                         htmlFor="genderMale"
                       >
-                        <RadioGroupItem value="Male" id="genderMale" />{" "}
+                        <RadioGroupItem value="male" id="genderMale" />{" "}
                         {t("registerForm.genderMale")}
                       </Label>
                     </div>
                     <div className="flex-1 flex items-center space-x-2">
                       <Label
-                        className="bg-background px-3 py-2 rounded-md items-center flex gap-2 w-full text-base"
+                        className={cn('bg-card px-3 py-2 rounded-md items-center flex gap-2 w-full text-base')}
                         htmlFor="genderFemale"
                       >
-                        <RadioGroupItem value="Female" id="genderFemale" />{" "}
+                        <RadioGroupItem value="female" id="genderFemale" />{" "}
                         {t("registerForm.genderFemale")}
                       </Label>
                     </div>
                   </RadioGroup>
                 </FormControl>
-                <FormMessage />
+                <FormMessage formName="registerForm" />
               </FormItem>
             )}
           />

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { UserCard } from "~/components/user-card";
+import { config } from "~/config";
 import { getParticipantsByEventId } from "~/db/api";
 import { cn } from "~/lib/utils";
 
@@ -11,7 +12,7 @@ function generateTelegramShareUrl(eventId?: string, text: string = "") {
   if (!eventId) return "";
 
   const encodedText = encodeURIComponent(text);
-  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/yaswamibot/join?startapp=event-${eventId}`;
+  return `https://t.me/share/url?text=${encodedText}&url=https://t.me/${config.botName}/join?startapp=event-${eventId}`;
 }
 
 export const Participants = ({

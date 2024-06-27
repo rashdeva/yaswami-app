@@ -3,7 +3,7 @@
 @tailwind utilities;
  
 @layer base {
-  :root {
+  /* :root {
     --background: hsl(0, 0%, 87%);
     --foreground: hsl(240 10% 3.9%);
 
@@ -33,19 +33,19 @@
     --ring: hsl(240 10% 3.9%);
  
     --radius: hsl(0.5rem);
-  }
+  } */
  
-  .dark {
+  :root {
     --background: hsl(240 10% 3.9%);
     --foreground: hsl(0 0% 98%);
  
-    --card: hsl(240 10% 3.9%);
+    --card: hsl(270, 12%, 10%);
     --card-foreground: hsl(0 0% 98%);
  
     --popover: hsl(240 10% 3.9%);
     --popover-foreground: hsl(0 0% 98%);
  
-    --primary: hsl(0 0% 98%);
+    --primary: hsl(140 100% 70%);
     --primary-foreground: hsl(240 5.9% 10%);
  
     --secondary: hsl(240 3.7% 15.9%);
@@ -57,7 +57,7 @@
     --accent: hsl(240 3.7% 15.9%);
     --accent-foreground: hsl(0 0% 98%);
  
-    --destructive: hsl(0 62.8% 30.6%);
+    --destructive: hsl(14, 100%, 57%);
     --destructive-foreground: hsl(0 0% 98%);
  
     --border: hsl(240 3.7% 15.9%);
@@ -65,7 +65,7 @@
     --ring: hsl(240 4.9% 83.9%);
   }
 
-  .twa {
+  /* .twa {
     --background: var(--tg-theme-bg-color);
     --foreground: var(--tg-theme-text-color);
  
@@ -89,7 +89,7 @@
  
     --destructive: var(--tg-theme-destructive-text-color);
     --destructive-foreground: hsl(0 0% 98%);
-  }
+  } */
 }
  
 @layer base {
@@ -98,7 +98,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: var(--tg-theme-header-bg-color);
+    
   }
 
   input[type="time"],

@@ -1,4 +1,4 @@
-import LogoPng from "~/assets/sun.svg";
+import LogoPng from "~/assets/logo.png";
 import { useEffect } from "react";
 import { useBackButton, useMainButton } from "@tma.js/sdk-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function OnboardingPage() {
   return (
     <div className="h-dvh flex flex-col justify-center py-4">
       <div className="text-center flex flex-col items-center gap-4">
-        <img src={LogoPng} className="max-w-40 animate-spin-slow" alt="" />
+        <img src={LogoPng} className="max-w-40" alt="" />
         <h1 className="text-3xl font-bold">YASWAMI</h1>
         <h2 className="text-xl font-bold">{t("mainPage.welcome")}</h2>
         <p>{t("mainPage.description")}</p>

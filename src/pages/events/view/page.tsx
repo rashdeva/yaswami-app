@@ -15,6 +15,7 @@ import { useMainButton } from "@tma.js/sdk-react";
 import { useCallback, useEffect } from "react";
 import { Calendar, MapPin } from "lucide-react";
 import { useBack } from "~/hooks/useBack";
+import { config } from "~/config";
 
 export default function EventViewPage() {
   useBack("/");
@@ -153,7 +154,7 @@ export default function EventViewPage() {
               className="h-full rounded-2xl inline-flex gap-2 text-sm"
               variant="ghost"
             >
-              <Link to={`https://t.me/${import.meta.env.VITE_BOT_NICKNAME}`}>
+              <Link to={`https://t.me/${config.botName}`}>
                 <img src={LogoPng} width={20} height={20} alt="" />
                 Yaswami Bot
               </Link>

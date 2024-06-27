@@ -1,22 +1,25 @@
-import LogoPng from "~/assets/sun.svg";
 import { useEffect } from "react";
 import { useBackButton, useMainButton } from "@tma.js/sdk-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "~/components/ui/button";
-import { Placeholder } from "@telegram-apps/telegram-ui";
 import { useQuery } from "@tanstack/react-query";
 import { getEvents } from "~/db/api";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { config } from "~/config";
+import { useUserStore } from "~/db/userStore";
+import { useTranslation } from "react-i18next";
 
 export default function EventsPage() {
   const mb = useMainButton();
   const bb = useBackButton();
   const navigate = useNavigate();
+  const userId = useUserStore((state) => state.user.id);
+  const { t } = useTranslation();
 
   const { data } = useQuery({
     queryKey: ["event"],
-    queryFn: getEvents,
+    queryFn: () => getEvents(userId!),
+    enabled: !!userId,
   });
 
   useEffect(() => {
@@ -30,7 +33,10 @@ export default function EventsPage() {
       navigate("/events/create");
     };
 
-    mb.setBgColor("#").setText("Create Event").show().on("click", handleClick);
+    mb.setBgColor("#")
+      .setText(t("events.createEvent"))
+      .show()
+      .on("click", handleClick);
 
     return () => {
       mb.hide().off("click", handleClick);
@@ -39,21 +45,14 @@ export default function EventsPage() {
 
   return (
     <div className="h-dvh py-4">
-      {data?.length === 0 && (
-        <Placeholder
-          header="Yaswami"
-          description="У вас пока нет созданных событий"
-        >
-          <img src={LogoPng} alt="" className="w-32" />
-        </Placeholder>
-      )}
+      <h1 className="text-xl font-bold mb-1">{t("events.h1")}</h1>
+      {data?.length === 0 && <p>{t("events.noEvents")}</p>}
 
       {data && data?.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold">Your events</h1>
           {data.map((event) => {
             return (
-              <Card className="rounded-lg">
+              <Card key={event.id} className="rounded-lg">
                 <Link to={`/events/${event.id}/view`}>
                   <CardHeader>{event.title}</CardHeader>
                   <CardContent>
@@ -70,8 +69,8 @@ export default function EventsPage() {
       )}
 
       {config.isLocalDev && (
-        <Button asChild variant="default">
-          <Link to={"/events/create"}>Create Event</Link>
+        <Button asChild variant="default" className="mt-4">
+          <Link to={"/events/create"}>{t("events.createEvent")}</Link>
         </Button>
       )}
     </div>
