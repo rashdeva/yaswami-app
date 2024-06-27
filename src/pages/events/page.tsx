@@ -36,6 +36,7 @@ export default function EventsPage() {
     mb.setBgColor("#")
       .setText(t("events.createEvent"))
       .show()
+      .enable()
       .on("click", handleClick);
 
     return () => {
